@@ -33,14 +33,13 @@ public class ListOfPlaylistsScript : MonoBehaviour
     // list determines which scrollable list the elements will instantiate under.
     {
         for (int i = 0; i < folders.Length; i++)
+        // for each folder
         {
-            Button newPlaylistButton = Instantiate(playlistButton, list);
-            // create new playlist button
+            Button newPlaylistButton = Instantiate(playlistButton, list); // create new playlist button
             string playlistName = folders[i].Name;
-            newPlaylistButton.GetComponentInChildren<TextMeshProUGUI>().text = playlistName;
-            // display name of playlist on new button
-            newPlaylistButton.onClick.AddListener(delegate { SelectedPlaylistListScript.GenerateAudioFileList(playlistName); } );
-            // make button load list from playlist on click
+            newPlaylistButton.name= playlistName;
+            newPlaylistButton.GetComponentInChildren<TextMeshProUGUI>().text = playlistName; // display name of playlist on new button
+            newPlaylistButton.onClick.AddListener(delegate { SelectedPlaylistListScript.GenerateAudioFileList(playlistName); } ); // make button load list from playlist on click
         }
     }
 }

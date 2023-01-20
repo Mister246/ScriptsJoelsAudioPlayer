@@ -39,28 +39,8 @@ public class ListOfPlaylistsScript : MonoBehaviour
             string playlistName = folders[i].Name;
             newPlaylistButton.GetComponentInChildren<TextMeshProUGUI>().text = playlistName;
             // display name of playlist on new button
-            newPlaylistButton.onClick.AddListener(delegate { GenerateAudioFileList(playlistName); });
-            // make button execute PreviewFiles function on click
-        }
-    }
-
-    FileInfo[] LoadAudioFiles(string playlistName)
-    {
-        DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
-        return playlist.GetFiles();
-    }
-
-    private void GenerateAudioFileList(string selectedPlaylist)
-    {
-        FileInfo[] audioFiles = LoadAudioFiles(selectedPlaylist);
-        if (audioFiles.Length == 0)
-        {
-            Debug.Log($"No audio files found in {Application.dataPath}/Playlists/{selectedPlaylist}");
-        }
-
-        for (int i = 0; i < audioFiles.Length; i++) 
-        {
-
+            newPlaylistButton.onClick.AddListener(delegate { SelectedPlaylistListScript.GenerateAudioFileList(playlistName); } );
+            // make button load list from playlist on click
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
@@ -24,7 +25,21 @@ public class ListOfPlaylistsScript : MonoBehaviour
     void Start()
     {
         LoadPlaylists();
-        mainScript.GenerateFolderList(playlists, playlistButton, transform);
+        GenerateFolderList(playlists, playlistButton, transform);
         // create list of playlists located Playlist folder in Assets (pre-built) or Joel'sAudioPlayer_Data (built)
+    }
+
+    private void GenerateFolderList(DirectoryInfo[] folders, Button playlistButton, Transform list)
+    // Creates a scrollable list of folders. 
+    // list determines which scrollable list the elements will instantiate under.
+    {
+        for (int i = 0; i < folders.Length; i++)
+        // for each folder in folders
+        {
+            Button newPlaylistButton = Instantiate(playlistButton, list);
+            // create new playlist button
+            newPlaylistButton.GetComponentInChildren<TextMeshProUGUI>().text = folders[i].Name;
+            // display name of playlist on new button
+        }
     }
 }

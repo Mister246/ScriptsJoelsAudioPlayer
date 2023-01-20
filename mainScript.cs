@@ -25,20 +25,6 @@ public class mainScript : MonoBehaviour
         
     }
 
-    static public void GenerateFolderList(DirectoryInfo[] folders, Button playlistButton, Transform list)
-    // Creates a scrollable list of folders. 
-    // list determines which scrollable list the elements will instantiate under.
-    {
-        for (int i = 0; i < folders.Length; i++)
-        // for each folder in folders
-        {
-            Button newPlaylistButton = Instantiate(playlistButton, list); 
-            // create new playlist button
-            newPlaylistButton.GetComponentInChildren<TextMeshProUGUI>().text = folders[i].Name;
-            // display name of playlist on new button
-        }
-    }
-
     static public void GenerateFileList(FileInfo[] files, Image background, Transform parent)
     // Creates a scrollable list of files.
     // Each element will have the provided background image.
@@ -48,5 +34,7 @@ public class mainScript : MonoBehaviour
         {
             Instantiate(background, parent); // create background for each element
         }
+
+        // MOVE THIS FUNCTION TO ITS RESPECTIVE SCRIPT EVENTUALLY
     }
 }

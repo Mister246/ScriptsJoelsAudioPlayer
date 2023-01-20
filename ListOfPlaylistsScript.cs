@@ -4,15 +4,21 @@ using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Image = UnityEngine.UI.Image;
-using Text = UnityEngine.UI.Text;
 
 public class ListOfPlaylistsScript : MonoBehaviour
 {
     public DirectoryInfo[] playlists; // contains each folder located in Playlists
-    public Button playlistButton;
+    public Button playlistButton; // button template each playlist button will use
+
+    void Start()
+    {
+        LoadPlaylists();
+        GenerateFolderList(playlists, playlistButton, transform);
+        // create list of playlists located Playlist folder in Assets (pre-built) or Joel'sAudioPlayer_Data (built)
+    }
 
     void LoadPlaylists()
+    // loads all folders from {Application.dataPath}/Playlists into an array
     {
         DirectoryInfo playlistsDirectory = new DirectoryInfo($@"{Application.dataPath}/Playlists");
         playlists = playlistsDirectory.GetDirectories();
@@ -20,13 +26,6 @@ public class ListOfPlaylistsScript : MonoBehaviour
         {
             Debug.Log($"No folders found in {playlistsDirectory}");
         }
-    }
-
-    void Start()
-    {
-        LoadPlaylists();
-        GenerateFolderList(playlists, playlistButton, transform);
-        // create list of playlists located Playlist folder in Assets (pre-built) or Joel'sAudioPlayer_Data (built)
     }
 
     private void GenerateFolderList(DirectoryInfo[] folders, Button playlistButton, Transform list)

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ListOfPlaylistsScript : MonoBehaviour
 {
     public DirectoryInfo[] playlists; // contains each folder located in Playlists
+    public FileInfo[] audioFiles;
     public Button playlistButton; // button template each playlist button will use
 
     void Start()
@@ -20,7 +21,7 @@ public class ListOfPlaylistsScript : MonoBehaviour
     void LoadPlaylists()
     // loads all folders from {Application.dataPath}/Playlists into an array
     {
-        DirectoryInfo playlistsDirectory = new DirectoryInfo($@"{Application.dataPath}/Playlists");
+        DirectoryInfo playlistsDirectory = new($@"{Application.dataPath}/Playlists");
         playlists = playlistsDirectory.GetDirectories();
         if (playlists.Length == 0)
         {
@@ -37,8 +38,28 @@ public class ListOfPlaylistsScript : MonoBehaviour
         {
             Button newPlaylistButton = Instantiate(playlistButton, list);
             // create new playlist button
-            newPlaylistButton.GetComponentInChildren<TextMeshProUGUI>().text = folders[i].Name;
+            string playlistName = folders[i].Name;
+            newPlaylistButton.GetComponentInChildren<TextMeshProUGUI>().text = playlistName;
             // display name of playlist on new button
+            newPlaylistButton.onClick.AddListener(delegate { PreviewFiles(playlistName); });
+            // make button execute PreviewFiles function on click
         }
+    }
+
+    void LoadAudioFiles(string playlistName)
+    {
+        string playlistFilePath = $@"{Application.dataPath}/Playlists/{playlistName}"; 
+        DirectoryInfo playlist = new(playlistFilePath);
+        audioFiles = playlist.GetFiles();
+        if (audioFiles.Length == 0)
+        {
+            Debug.Log($"No audio files found in {playlistFilePath}");
+        }
+    }
+
+    private void PreviewFiles(string selectedPlaylist)
+    {
+        LoadAudioFiles(selectedPlaylist);
+        Debug.Log(audioFiles.Length);
     }
 }

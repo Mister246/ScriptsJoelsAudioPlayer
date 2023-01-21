@@ -9,6 +9,7 @@ public class ListOfPlaylistsScript : MonoBehaviour
 {
     public DirectoryInfo[] playlists; // contains each folder located in Playlists
     public Button playlistButton; // button template each playlist button will use
+    static public ButtonHighlightScript currentlyHighlightedButton;
 
     void Start()
     {
@@ -39,7 +40,20 @@ public class ListOfPlaylistsScript : MonoBehaviour
             string playlistName = folders[i].Name;
             newPlaylistButton.name= playlistName;
             newPlaylistButton.GetComponentInChildren<TextMeshProUGUI>().text = playlistName; // display name of playlist on new button
+            newPlaylistButton.onClick.AddListener(delegate { DehighlightPreviouslySelectedButton(); } );
             newPlaylistButton.onClick.AddListener(delegate { SelectedPlaylistListScript.GenerateAudioFileList(playlistName); } ); // make button load list from playlist on click
+        }
+    }
+
+    private void DehighlightPreviouslySelectedButton()
+    {
+        if (currentlyHighlightedButton != null)
+        // if a button was previously selected
+        {
+            currentlyHighlightedButton.button.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+            currentlyHighlightedButton.button.GetComponent<Image>().color = new Color(0.235f, 0.235f, 0.235f);
+            // change previously selected button colors back to default
+            currentlyHighlightedButton.highlighted = false;
         }
     }
 }

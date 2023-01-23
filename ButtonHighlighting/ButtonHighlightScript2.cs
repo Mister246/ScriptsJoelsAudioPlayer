@@ -4,19 +4,24 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonHighlightScript : MonoBehaviour
+public class ButtonHighlightScript2 : MonoBehaviour
 // Makes a button's background and text change color upon being clicked.
-// Ensures only one instance of this button is highlighted at a time and dehighlights the previously selected button.
+// Only one instance of this button is highlighted at a time.
+// Upon a new button being highlighted, the previous button dehighlights.
+// Apply this script to the button that will be used to spawn more buttons in the list.
+// If you want to apply this script to a separate list, make a copy of this class in a new script and apply it to
+// the template button for that list.
+// This class is currently in use by the right list of audio files.
 {
     Button button; // button component of this game object
     public bool highlighted; // bool to determine if this is highlighted
-    static public ButtonHighlightScript currentlyHighlightedButton; // global static reference to whichever button is currently highlighted
+    static public ButtonHighlightScript2 currentlyHighlightedButton; // global static reference to whichever button is currently highlighted
     Color defaultBackgroundColor = new(0.235f, 0.235f, 0.235f); // color is #3C3C3C
 
     void Start()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(delegate { HighlightOnSelect(); } );
+        button.onClick.AddListener(delegate { HighlightOnSelect(); });
         // make button execute HighlightOnSelect() whenever it is clicked on
         highlighted = false;
         // when a button spawns it is not highlighted

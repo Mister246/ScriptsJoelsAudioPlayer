@@ -10,6 +10,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
     public Button referencedButton;
     static Button audioFileButton;
     static Transform list;
+    static string currentlyLoadedPlaylist;
 
     void Start()
     {
@@ -21,17 +22,30 @@ public class SelectedPlaylistListScript : MonoBehaviour
     static FileInfo[] LoadAudioFiles(string playlistName)
     {
         DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
-        return playlist.GetFiles("*.ogg"); // update to support more file types in the future
+        FileInfo[] audioFiles = playlist.GetFiles("*.ogg"); // update to support more file types in the future
+
+        if (audioFiles.Length == 0)
+        {
+            Debug.Log($"No audio files found in {playlist}");
+        }
+        else
+        {
+            currentlyLoadedPlaylist = playlistName;
+        }
+
+        return audioFiles; 
     }
 
     static public void GenerateAudioFileList(string selectedPlaylist)
     // creates a scrollable list of audio files located in selectedPlaylist
     {
-        FileInfo[] audioFiles = LoadAudioFiles(selectedPlaylist);
-        if (audioFiles.Length == 0)
+        if (selectedPlaylist == currentlyLoadedPlaylist)
         {
-            Debug.Log($"No audio files found in {Application.dataPath}/Playlists/{selectedPlaylist}");
+            return;
+            // prevents already loaded audio files from loading again
         }
+
+        FileInfo[] audioFiles = LoadAudioFiles(selectedPlaylist);
 
         for (int i = 0; i < audioFiles.Length; i++)
         {

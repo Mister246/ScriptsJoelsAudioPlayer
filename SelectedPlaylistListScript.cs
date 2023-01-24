@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
     static Button audioFileButton;
     static Transform list;
     static string currentlyLoadedPlaylist;
+    static List<Button> loadedButtons = new();
 
     void Start()
     {
@@ -20,24 +22,22 @@ public class SelectedPlaylistListScript : MonoBehaviour
     }
 
     static FileInfo[] LoadAudioFiles(string playlistName)
-    {
+    {     
         DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
         FileInfo[] audioFiles = playlist.GetFiles("*.ogg"); // update to support more file types in the future
+        currentlyLoadedPlaylist = playlistName;
 
         if (audioFiles.Length == 0)
         {
-            Debug.Log($"No audio files found in {playlist}");
-        }
-        else
-        {
-            currentlyLoadedPlaylist = playlistName;
+            // no audio files in playlist
+            // add functionality later
         }
 
         return audioFiles; 
     }
 
     static public void GenerateAudioFileList(string selectedPlaylist)
-    // creates a scrollable list of audio files located in selectedPlaylist
+    // creates a scrollable list of audio files located in the selected playlist
     {
         if (selectedPlaylist == currentlyLoadedPlaylist)
         {
@@ -47,13 +47,28 @@ public class SelectedPlaylistListScript : MonoBehaviour
 
         FileInfo[] audioFiles = LoadAudioFiles(selectedPlaylist);
 
+        UnloadButtons(); // unload any buttons currently in the list
+
         for (int i = 0; i < audioFiles.Length; i++)
         {
             Button newAudioFileButton = Instantiate(audioFileButton, list); // create new audio file button in list
             string audioFileName = audioFiles[i].Name;
             newAudioFileButton.name = audioFileName;
             newAudioFileButton.GetComponentInChildren<TextMeshProUGUI>().text = audioFileName; // display name of audio file on new button
+            loadedButtons.Add(newAudioFileButton);
             //newAudioFileButton.onClick.AddListener(delegate { SelectedPlaylistListScript.GenerateAudioFileList(audioFileName); });
+        }
+    }
+
+    static void UnloadButtons()
+    {
+        if (loadedButtons.Count > 0)
+        {
+            foreach (Button button in loadedButtons.ToList())
+            {
+                Destroy(button.gameObject);
+                loadedButtons.Remove(button);
+            }
         }
     }
 }

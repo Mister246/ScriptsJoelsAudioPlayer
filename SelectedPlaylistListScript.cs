@@ -29,11 +29,11 @@ public class SelectedPlaylistListScript : MonoBehaviour
 
         if (audioFiles.Length == 0)
         {
-            ControlPanelScript.ControlPanelText.text = $"No files located in {playlistName}";
+            ControlPanelScript.controlPanelText.text = $"No files located in {playlistName}";
         }
         else
         {
-            ControlPanelScript.ControlPanelText.text = "";
+            ControlPanelScript.controlPanelText.text = "";
         }
 
         return audioFiles; 

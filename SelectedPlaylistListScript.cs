@@ -29,8 +29,11 @@ public class SelectedPlaylistListScript : MonoBehaviour
 
         if (audioFiles.Length == 0)
         {
-            // no audio files in playlist
-            // add functionality later
+            ControlPanelScript.ControlPanelText.text = $"No files located in {playlistName}";
+        }
+        else
+        {
+            ControlPanelScript.ControlPanelText.text = "";
         }
 
         return audioFiles; 

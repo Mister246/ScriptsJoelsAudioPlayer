@@ -27,6 +27,13 @@ public class ControlPanelScript : MonoBehaviour
 
     void InvertPausePlayButtonSprite()
     {
+        if (ButtonHighlightScript2.currentlyHighlightedButton == null)
+        // if there is no currently highlighted button
+        {
+            return;
+            // button should not invert
+        }
+
         if (pausePlayButtonImage.sprite == pauseSprite)
         {
             pausePlayButtonImage.sprite = playSprite;

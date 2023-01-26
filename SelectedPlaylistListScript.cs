@@ -75,5 +75,6 @@ public class SelectedPlaylistListScript : MonoBehaviour
                 loadedButtons.Remove(button);
             }
         }
+        ButtonHighlightScript2.currentlyHighlightedButton = null; // once buttons are unloaded, nothing is highlighted
     }
 }

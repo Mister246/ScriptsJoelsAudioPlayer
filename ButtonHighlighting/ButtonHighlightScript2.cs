@@ -21,7 +21,7 @@ public class ButtonHighlightScript2 : MonoBehaviour
     void Start()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(delegate { HighlightOnSelect(); });
+        button.onClick.AddListener(delegate { HighlightOnSelect(); } );
         // make button execute HighlightOnSelect() whenever it is clicked on
         highlighted = false;
         // when a button spawns it is not highlighted
@@ -29,7 +29,16 @@ public class ButtonHighlightScript2 : MonoBehaviour
 
     void HighlightOnSelect()
     {
-        if (!highlighted)
+        if (highlighted)
+        // if button is already highlighted, dehighlight this button
+        {
+            GetComponent<Image>().color = defaultBackgroundColor; // change button background color to default
+            button.GetComponentInChildren<TextMeshProUGUI>().color = Color.white; // change button text to default
+            highlighted = false;
+            currentlyHighlightedButton = null;
+        }
+        else
+        // if button is not already highlighted, highlight this button
         {
             DehighlightPreviouslySelectedButton();
             GetComponent<Image>().color = Color.white; // change button background color to white

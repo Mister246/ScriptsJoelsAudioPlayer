@@ -65,7 +65,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
         }
     }
 
-    static void UnloadButtons()
+    static public void UnloadButtons()
     {
         if (loadedButtons.Count > 0)
         {

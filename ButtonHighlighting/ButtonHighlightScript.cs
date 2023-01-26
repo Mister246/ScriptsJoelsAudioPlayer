@@ -21,32 +21,42 @@ public class ButtonHighlightScript : MonoBehaviour
     void Start()
     {
         button = GetComponent<Button>();
-        button.onClick.AddListener(delegate { HighlightOnSelect(); } );
-        // make button execute HighlightOnSelect() whenever it is clicked on
+        button.onClick.AddListener(delegate { HighlightButton(this); });
+        // make button highlight or dehighlight itself on click
         highlighted = false;
         // when a button spawns it is not highlighted
     }
 
-    void HighlightOnSelect()
+    void HighlightButton(ButtonHighlightScript button)
+    // highlights the button if it is not already highlighted
+    // dehighlights the button if it is already highlighted
     {
-        if (!highlighted)
+        if (button.highlighted)
         {
-            DehighlightPreviouslySelectedButton();
-            GetComponent<Image>().color = Color.white; // change button background color to white
+            DehighlightButton(button);
+            //SelectedPlaylistListScript.UnloadButtons();
+            // look into making selected playlist unload when button dehighlights
+        }
+        else
+        // if button is not highlighted, highlight button:
+        {
+            DehighlightButton(currentlyHighlightedButton); // dehighlight previous button
+            button.GetComponent<Image>().color = Color.white; // change button background color to white
             button.GetComponentInChildren<TextMeshProUGUI>().color = defaultBackgroundColor; // change button text to #3C3C3C
-            highlighted = true; // button is now highlighted
+            button.highlighted = true; // button is now highlighted
             currentlyHighlightedButton = this; // create a reference to this button so it can be dehighlighted when another button is highlighted
         }
     }
 
-    void DehighlightPreviouslySelectedButton()
+    void DehighlightButton(ButtonHighlightScript button)
     {
         if (currentlyHighlightedButton != null)
         // if a button was previously selected
         {
-            currentlyHighlightedButton.button.GetComponentInChildren<TextMeshProUGUI>().color = Color.white; // change button text back to white
-            currentlyHighlightedButton.button.GetComponent<Image>().color = defaultBackgroundColor; // change button background back to #3C3C3C
-            currentlyHighlightedButton.highlighted = false; // button is now no longer highlighted
+            button.GetComponent<Image>().color = defaultBackgroundColor; // change button background color to default
+            button.GetComponentInChildren<TextMeshProUGUI>().color = Color.white; // change button text to default
+            button.highlighted = false;
+            currentlyHighlightedButton = null;
         }
     }
 }

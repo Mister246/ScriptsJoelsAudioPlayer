@@ -30,10 +30,12 @@ public class SelectedPlaylistListScript : MonoBehaviour
         if (audioFiles.Length == 0)
         {
             ControlPanelScript.controlPanelText.text = $"No files located in {playlistName}";
+            ControlPanelScript.pausePlayObject.SetActive(false); // hide pause/play button
         }
         else
         {
-            ControlPanelScript.controlPanelText.text = "";
+            ControlPanelScript.controlPanelText.text = ""; // hide text
+            ControlPanelScript.pausePlayObject.SetActive(true); // display pause/play button
         }
 
         return audioFiles; 

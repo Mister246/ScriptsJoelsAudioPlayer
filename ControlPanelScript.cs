@@ -7,7 +7,7 @@ public class ControlPanelScript : MonoBehaviour
 {
     static public Text controlPanelText;
 
-    public GameObject pausePlayObject;
+    static public GameObject pausePlayObject;
     public Sprite pauseSprite;
     public Sprite playSprite;
     Image pausePlayButtonImage;
@@ -17,9 +17,12 @@ public class ControlPanelScript : MonoBehaviour
     {
         controlPanelText = GetComponentInChildren<Text>();
 
+        pausePlayObject = GameObject.Find("Pause/Play Button");
+        pausePlayObject.SetActive(false); // Pause/Play Button is hidden by default
+
         pausePlayButton = pausePlayObject.GetComponent<Button>();
-        pausePlayButton.onClick.AddListener(delegate { InvertPausePlayButtonSprite(); } );
         pausePlayButtonImage = pausePlayButton.GetComponent<Image>();
+        pausePlayButton.onClick.AddListener(delegate { InvertPausePlayButtonSprite(); } );
     }
 
     void InvertPausePlayButtonSprite()

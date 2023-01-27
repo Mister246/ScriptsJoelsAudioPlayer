@@ -14,6 +14,8 @@ public class ControlPanelScript : MonoBehaviour
     Button pausePlayButton;
     bool paused = true;
 
+    public AudioSource audioSource;
+
     void Start()
     {
         controlPanelText = GetComponentInChildren<Text>();
@@ -50,9 +52,18 @@ public class ControlPanelScript : MonoBehaviour
 
     void PlaySelectedAudioFiles(ButtonHighlightScript2 selectedButton)
     {
-        if (paused)
+        if (paused && selectedButton != null)
+        // if paused and a button is selected
         {
-
+            WWW url = new WWW("file://" + $@"{Application.dataPath}/Playlists/{SelectedPlaylistListScript.currentlyLoadedPlaylist}/{selectedButton.name}");
+            audioSource.clip = url.GetAudioClip(false, true);
+            audioSource.clip.name = selectedButton.name;
+            if (audioSource.clip == null)
+            {
+                Debug.Log("unable to play audio, audio is null");
+            }
+            audioSource.Play();
+            paused = false;
         }
     }
 }

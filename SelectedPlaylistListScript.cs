@@ -11,8 +11,9 @@ public class SelectedPlaylistListScript : MonoBehaviour
     public Button referencedButton;
     static Button audioFileButton;
     static Transform list;
-    static string currentlyLoadedPlaylist;
+    public static string currentlyLoadedPlaylist;
     static List<Button> loadedButtons = new();
+    static public FileInfo[] audioFiles;
 
     void Start()
     {
@@ -32,7 +33,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
 
         UnloadButtons(); // unload any buttons currently in the list
 
-        FileInfo[] audioFiles = LoadAudioFiles(selectedPlaylist);
+        audioFiles = LoadAudioFiles(selectedPlaylist);
 
         if (audioFiles.Length == 0)
         {

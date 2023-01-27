@@ -12,6 +12,7 @@ public class ListOfPlaylistsScript : MonoBehaviour
 
     void Start()
     {
+        Application.runInBackground = true;
         LoadPlaylists();
         GenerateFolderList(playlists, playlistButton, transform);
         // create list of playlists located Playlist folder in Assets (pre-built) or Joel'sAudioPlayer_Data (built)

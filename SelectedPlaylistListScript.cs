@@ -30,30 +30,13 @@ public class SelectedPlaylistListScript : MonoBehaviour
             // prevents already loaded audio files from loading again
         }
 
-        FileInfo[] audioFiles = LoadAudioFiles(selectedPlaylist);
-
         UnloadButtons(); // unload any buttons currently in the list
 
-        for (int i = 0; i < audioFiles.Length; i++)
-        {
-            Button newAudioFileButton = Instantiate(audioFileButton, list); // create new audio file button in list
-            string audioFileName = audioFiles[i].Name;
-            newAudioFileButton.name = audioFileName;
-            newAudioFileButton.GetComponentInChildren<TextMeshProUGUI>().text = audioFileName; // display name of audio file on new button
-            loadedButtons.Add(newAudioFileButton);
-            //newAudioFileButton.onClick.AddListener(delegate { SelectedPlaylistListScript.GenerateAudioFileList(audioFileName); });
-        }
-    }
-
-    static FileInfo[] LoadAudioFiles(string playlistName)
-    {
-        DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
-        FileInfo[] audioFiles = playlist.GetFiles("*.ogg"); // update to support more file types in the future
-        currentlyLoadedPlaylist = playlistName;
+        FileInfo[] audioFiles = LoadAudioFiles(selectedPlaylist);
 
         if (audioFiles.Length == 0)
         {
-            ControlPanelScript.controlPanelText.text = $"No files located in {playlistName}";
+            ControlPanelScript.controlPanelText.text = $"No files located in {selectedPlaylist}";
             ControlPanelScript.pausePlayObject.SetActive(false); // hide pause/play button
         }
         else
@@ -62,7 +45,21 @@ public class SelectedPlaylistListScript : MonoBehaviour
             ControlPanelScript.pausePlayObject.SetActive(true); // display pause/play button
         }
 
-        return audioFiles;
+        for (int i = 0; i < audioFiles.Length; i++)
+        {
+            Button newAudioFileButton = Instantiate(audioFileButton, list); // create new audio file button in list
+            string audioFileName = audioFiles[i].Name;
+            newAudioFileButton.name = audioFileName;
+            newAudioFileButton.GetComponentInChildren<TextMeshProUGUI>().text = audioFileName; // display name of audio file on new button
+            loadedButtons.Add(newAudioFileButton);
+        }
+    }
+
+    static FileInfo[] LoadAudioFiles(string playlistName)
+    {
+        DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
+        currentlyLoadedPlaylist = playlistName;
+        return playlist.GetFiles("*.ogg"); // update to support more file types in the future
     }
 
     static public void UnloadButtons()

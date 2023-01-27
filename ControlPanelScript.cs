@@ -12,6 +12,7 @@ public class ControlPanelScript : MonoBehaviour
     public Sprite playSprite;
     Image pausePlayButtonImage;
     Button pausePlayButton;
+    bool paused = true;
 
     void Start()
     {
@@ -23,6 +24,7 @@ public class ControlPanelScript : MonoBehaviour
         pausePlayButton = pausePlayObject.GetComponent<Button>();
         pausePlayButtonImage = pausePlayButton.GetComponent<Image>();
         pausePlayButton.onClick.AddListener(delegate { InvertPausePlayButtonSprite(); } );
+        pausePlayButton.onClick.AddListener(delegate { PlaySelectedAudioFiles(ButtonHighlightScript2.currentlyHighlightedButton); } );
     }
 
     void InvertPausePlayButtonSprite()
@@ -37,10 +39,20 @@ public class ControlPanelScript : MonoBehaviour
         if (pausePlayButtonImage.sprite == pauseSprite)
         {
             pausePlayButtonImage.sprite = playSprite;
+            paused = false;
         }
         else
         {
             pausePlayButtonImage.sprite = pauseSprite;
+            paused = true;
+        }
+    }
+
+    void PlaySelectedAudioFiles(ButtonHighlightScript2 selectedButton)
+    {
+        if (paused)
+        {
+
         }
     }
 }

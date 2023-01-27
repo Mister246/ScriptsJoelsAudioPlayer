@@ -21,26 +21,6 @@ public class SelectedPlaylistListScript : MonoBehaviour
         // have to manually assign these because the below functions are static
     }
 
-    static FileInfo[] LoadAudioFiles(string playlistName)
-    {     
-        DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
-        FileInfo[] audioFiles = playlist.GetFiles("*.ogg"); // update to support more file types in the future
-        currentlyLoadedPlaylist = playlistName;
-
-        if (audioFiles.Length == 0)
-        {
-            ControlPanelScript.controlPanelText.text = $"No files located in {playlistName}";
-            ControlPanelScript.pausePlayObject.SetActive(false); // hide pause/play button
-        }
-        else
-        {
-            ControlPanelScript.controlPanelText.text = ""; // hide text
-            ControlPanelScript.pausePlayObject.SetActive(true); // display pause/play button
-        }
-
-        return audioFiles; 
-    }
-
     static public void GenerateAudioFileList(string selectedPlaylist)
     // creates a scrollable list of audio files located in the selected playlist
     {
@@ -63,6 +43,26 @@ public class SelectedPlaylistListScript : MonoBehaviour
             loadedButtons.Add(newAudioFileButton);
             //newAudioFileButton.onClick.AddListener(delegate { SelectedPlaylistListScript.GenerateAudioFileList(audioFileName); });
         }
+    }
+
+    static FileInfo[] LoadAudioFiles(string playlistName)
+    {
+        DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
+        FileInfo[] audioFiles = playlist.GetFiles("*.ogg"); // update to support more file types in the future
+        currentlyLoadedPlaylist = playlistName;
+
+        if (audioFiles.Length == 0)
+        {
+            ControlPanelScript.controlPanelText.text = $"No files located in {playlistName}";
+            ControlPanelScript.pausePlayObject.SetActive(false); // hide pause/play button
+        }
+        else
+        {
+            ControlPanelScript.controlPanelText.text = ""; // hide text
+            ControlPanelScript.pausePlayObject.SetActive(true); // display pause/play button
+        }
+
+        return audioFiles;
     }
 
     static public void UnloadButtons()

@@ -32,18 +32,17 @@ public class SelectedPlaylistListScript : MonoBehaviour
         }
 
         UnloadButtons(); // unload any buttons currently in the list
+        ControlPanelScript.PauseAudio(); // stop playing any audio if there is any
 
         audioFiles = LoadAudioFiles(selectedPlaylist);
 
         if (audioFiles.Length == 0)
         {
-            ControlPanelScript.controlPanelText.text = $"No files located in {selectedPlaylist}";
-            ControlPanelScript.pausePlayObject.SetActive(false); // hide pause/play button
+            ControlPanelScript.DisplayText($"No files located in {selectedPlaylist}");
         }
         else
         {
-            ControlPanelScript.controlPanelText.text = ""; // hide text
-            ControlPanelScript.pausePlayObject.SetActive(true); // display pause/play button
+            ControlPanelScript.DisplayPausePlayButton();
         }
 
         for (int i = 0; i < audioFiles.Length; i++)

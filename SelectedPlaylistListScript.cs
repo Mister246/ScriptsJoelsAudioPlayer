@@ -32,7 +32,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
         }
 
         UnloadButtons(); // unload any buttons currently in the list
-        ControlPanelScript.PauseAudio(); // stop playing any audio if there is any
+        ControlPanelScript.StopAudio(); // stop playing any audio if there is any
 
         audioFiles = LoadAudioFiles(selectedPlaylist);
 

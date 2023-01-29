@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using Unity.VisualScripting;
 
 public class ControlPanelScript : MonoBehaviour
 {
@@ -15,7 +17,6 @@ public class ControlPanelScript : MonoBehaviour
     static public GameObject pausePlayObject;
     static Image pausePlayButtonImage;
     Button pausePlayButton;
-    static bool paused = true; // by default audio is paused
 
     static public AudioSource audioSource;
 
@@ -45,18 +46,37 @@ public class ControlPanelScript : MonoBehaviour
             // no audio to handle
         }
 
-        if (paused)
+        if (!audioSource.isPlaying)
         {
-            PlayAudio(selectedButton.name);
+            LoadAudio(selectedButton.name);
+            PlayAudio();
         }
-        else // if not paused
+        else
         {
             PauseAudio();
         }
     }
 
-    public void PlayAudio(string audioFileName)
+    static public void LoadAudio(string audioFileName)
+    // loads an audio file from a directory and sets it as the audio source's clip
     {
+        /*
+        UnityWebRequest url = UnityWebRequestMultimedia.GetAudioClip("file://" + $@"{Application.dataPath}/Playlists/{SelectedPlaylistListScript.currentlyLoadedPlaylist}/{audioFileName}", AudioType.OGGVORBIS);
+        audioSource.clip = DownloadHandlerAudioClip.GetContent(url);
+        */
+
+        // mess with this later ^^
+
+        if (!audioSource.clip.IsUnityNull())
+        // if a clip is currently loaded
+        {
+            if (audioSource.clip.name == audioFileName)
+            // if this clip is already loaded
+            {
+                return;
+            }
+        }
+
         WWW url = new WWW("file://" + $@"{Application.dataPath}/Playlists/{SelectedPlaylistListScript.currentlyLoadedPlaylist}/{audioFileName}");
         audioSource.clip = url.GetAudioClip(false, true);
         audioSource.clip.name = audioFileName;
@@ -65,17 +85,31 @@ public class ControlPanelScript : MonoBehaviour
         {
             Debug.Log("unable to play audio, audio is null");
         }
+    }
 
-        pausePlayButtonImage.sprite = pauseSprite;
-        audioSource.Play();
-        paused = false;
+    public void PlayAudio()
+    {
+        if (!audioSource.clip.IsUnityNull())
+        // if a clip is loaded
+        {
+            pausePlayButtonImage.sprite = pauseSprite;
+            audioSource.Play();
+            StartCoroutine(OnAudioEnd(audioSource.clip.length - audioSource.time));
+            // start coroutine to execute when audio file is finished playing
+            // (audioSource.clip.length - audioSource.time) is the remaining time for the audio file
+        }
     }
 
     static public void PauseAudio()
     {
         pausePlayButtonImage.sprite = playSprite;
+        audioSource.Pause();
+    }
+
+    static public void StopAudio()
+    {
+        pausePlayButtonImage.sprite = playSprite;
         audioSource.Stop();
-        paused = true;
     }
 
     static public void DisplayText(string text)
@@ -88,5 +122,36 @@ public class ControlPanelScript : MonoBehaviour
     {
         pausePlayObject.SetActive(true);
         controlPanelText.text = ""; // hide text
+    }
+
+    public IEnumerator OnAudioEnd(float audioDuration)
+    // executes once audioDuration seconds have passed
+    {
+        string audioFile = audioSource.clip.name; 
+        // save reference to audio file that was playing when starting the coroutine
+        float currentTime = audioSource.time; 
+        // save reference to the current time of the audio file when starting the coroutine
+
+        yield return new WaitForSeconds(audioDuration);
+        // wait for audio file to end
+
+        if (audioFile != audioSource.clip.name)
+        // if at some point started playing another clip
+        {
+            yield break;
+        }
+
+        if (audioSource.time > 0)
+        {
+            if ((audioSource.time - currentTime) <= (audioDuration - 0.3))
+            // if at some point interrupted the audio clip
+            // this can happen either by pausing the audio file or selecting another playlist
+            // 0.3 is the tolerance
+            {
+                yield break;
+            }
+        }
+
+        StopAudio();
     }
 }

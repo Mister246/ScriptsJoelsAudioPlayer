@@ -18,6 +18,8 @@ public class ControlPanelScript : MonoBehaviour
     static Image pausePlayButtonImage;
     Button pausePlayButton;
 
+    static public GameObject progressBar;
+
     static public AudioSource audioSource;
 
     void Start()
@@ -33,6 +35,9 @@ public class ControlPanelScript : MonoBehaviour
         pausePlayButton = pausePlayObject.GetComponent<Button>();
         pausePlayButtonImage = pausePlayButton.GetComponent<Image>();
         pausePlayButton.onClick.AddListener(delegate { AudioManagement(ButtonHighlightScript2.currentlyHighlightedButton); } );
+
+        progressBar = GameObject.Find("Progress Bar");
+        progressBar.SetActive(false); // Progress Bar is hidden by default
 
         audioSource = GetComponent<AudioSource>();
     }
@@ -114,13 +119,19 @@ public class ControlPanelScript : MonoBehaviour
 
     static public void DisplayText(string text)
     {
-        pausePlayObject.SetActive(false); // hide pause/play button
+        HideControlPanel();
         controlPanelText.text = text;
     }
+    static public void HideControlPanel()
+    {
+        pausePlayObject.SetActive(false);
+        progressBar.SetActive(false);
+    }
 
-    static public void DisplayPausePlayButton()
+    static public void DisplayControlPanel()
     {
         pausePlayObject.SetActive(true);
+        progressBar.SetActive(true);
         controlPanelText.text = ""; // hide text
     }
 

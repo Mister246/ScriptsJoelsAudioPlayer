@@ -42,7 +42,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
         }
         else
         {
-            ControlPanelScript.DisplayPausePlayButton();
+            ControlPanelScript.DisplayControlPanel();
         }
 
         for (int i = 0; i < audioFiles.Length; i++)

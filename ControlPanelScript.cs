@@ -125,6 +125,7 @@ public class ControlPanelScript : MonoBehaviour
     static public void HideControlPanel()
     {
         pausePlayObject.SetActive(false);
+        ProgressBarScript.ResetProgressBar();
         progressBar.SetActive(false);
     }
 

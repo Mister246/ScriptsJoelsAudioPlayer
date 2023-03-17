@@ -10,9 +10,8 @@ public class ProgressBarScript : MonoBehaviour
     // units in editor don't seem to evenly equate to units in script however
     // for the logic of this script, knob starts at x = 0 and ends at x = 800
 
-    static float startingPosition;
-
-    float audioProgressPercentage;
+    static float startingPosition; // x = 0 for the knob
+    float audioProgressPercentage; // represents how much of the audio file has been played
 
     void Start()
     {
@@ -24,8 +23,8 @@ public class ProgressBarScript : MonoBehaviour
     {
         if (!ControlPanelScript.audioSource.isPlaying) return;
 
-        audioProgressPercentage = ControlPanelScript.audioSource.time / ControlPanelScript.audioSource.clip.length;
-        knob.transform.position = new Vector3(startingPosition + (800 * audioProgressPercentage), knob.transform.position.y, knob.transform.position.z);
+        audioProgressPercentage = ControlPanelScript.audioSource.time / ControlPanelScript.audioSource.clip.length; // determine how much of the audio file has been played
+        knob.transform.position = new Vector3(startingPosition + (800 * audioProgressPercentage), knob.transform.position.y, knob.transform.position.z); // move knob according to percentage
     }
 
     static public void ResetProgressBar()

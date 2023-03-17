@@ -42,15 +42,15 @@ public class ProgressBarScript : MonoBehaviour
     {
         int seconds = (int)ControlPanelScript.audioSource.time;
         int minutes = seconds / 60;
-        seconds %= 60; // seconds must be divided after getting minutes to allow minutes to be calculated
+        seconds %= 60; // seconds must be modulo'd after getting minutes to allow minutes to be calculated
 
-        if (seconds <= 10)
+        if (seconds < 10)
         {
-            progressText.text = $"{minutes}:0{seconds} / ";
+            progressText.text = $"{minutes}:0{seconds} / {ControlPanelScript.formattedAudioLength}";
         }
         else
         {
-            progressText.text = $"{minutes}:{seconds} / ";
+            progressText.text = $"{minutes}:{seconds} / {ControlPanelScript.formattedAudioLength}";
         }
     }
 }

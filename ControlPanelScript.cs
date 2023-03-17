@@ -19,6 +19,7 @@ public class ControlPanelScript : MonoBehaviour
     Button pausePlayButton;
 
     static public GameObject progressBar;
+    static public string formattedAudioLength; // audio length formatted in minutes:seconds
 
     static public AudioSource audioSource;
 
@@ -84,11 +85,21 @@ public class ControlPanelScript : MonoBehaviour
 
         WWW url = new WWW("file://" + $@"{Application.dataPath}/Playlists/{SelectedPlaylistListScript.currentlyLoadedPlaylist}/{audioFileName}");
         audioSource.clip = url.GetAudioClip(false, true);
-        audioSource.clip.name = audioFileName;
 
         if (audioSource.clip == null)
         {
-            Debug.Log("unable to play audio, audio is null");
+            Debug.Log($"unable to load {audioFileName}; audio is null");
+            return;
+        }
+
+        audioSource.clip.name = audioFileName;
+        if (audioSource.clip.length < 10)
+        {
+            formattedAudioLength = $"{(int)audioSource.clip.length / 60}:0{(int)audioSource.clip.length % 60}";
+        }
+        else
+        {
+            formattedAudioLength = $"{(int)audioSource.clip.length / 60}:{(int)audioSource.clip.length % 60}";
         }
     }
 

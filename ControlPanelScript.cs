@@ -45,14 +45,8 @@ public class ControlPanelScript : MonoBehaviour
 
     void AudioManagement(ButtonHighlightScript2 selectedButton)
     {
-        if (ButtonHighlightScript2.currentlyHighlightedButton == null)
-        // if there is no currently highlighted button
-        {
-            return;
-            // no audio to handle
-        }
-
-        if (!audioSource.isPlaying)
+        if (!audioSource.isPlaying && ButtonHighlightScript2.currentlyHighlightedButton != null)
+        // if nothing is playing and an audio file is selected
         {
             LoadAudio(selectedButton.name);
             PlayAudio();

@@ -33,10 +33,9 @@ public class ProgressBarScript : MonoBehaviour
     }
 
     static public void ResetProgressBar()
-    // resets knob back to starting position
     {
-        knob.transform.position = new Vector3(startingPosition, knob.transform.position.y, knob.transform.position.z);
-        progressText.text = "";
+        knob.transform.position = new Vector3(startingPosition, knob.transform.position.y, knob.transform.position.z); // reset knob back to starting position
+        progressText.text = ""; // clear progress text
     }
 
     static public void DisplayProgressInTime()

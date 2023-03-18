@@ -87,6 +87,7 @@ public class ControlPanelScript : MonoBehaviour
         }
 
         audioSource.clip.name = audioFileName;
+
         if (audioSource.clip.length < 10)
         {
             formattedAudioLength = $"{(int)audioSource.clip.length / 60}:0{(int)audioSource.clip.length % 60}";

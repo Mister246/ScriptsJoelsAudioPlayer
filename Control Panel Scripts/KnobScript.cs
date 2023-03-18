@@ -9,4 +9,9 @@ public class KnobScript : MonoBehaviour, IDragHandler
     {
         ProgressBarScript.ChangeKnobPosition(eventData);
     }
+
+    public void OnDragEnd(PointerEventData eventData)
+    {
+
+    }
 }

@@ -46,17 +46,9 @@ public class ProgressBarScript : MonoBehaviour
     // allows the user to click and hold on the knob to change the playback position of audio
     // function gets event data from KnobScript, which is attached to the Knob object
     {
-        if (eventData.position.x < startingPosition)
-        // if cursor position is further left than the starting position of the progress bar
-        {
-            return;
-        }
-
-        if (eventData.position.x > endingPosition)
-        // if cursor position is further right than the ending position of the progress bar
-        {
-            return;
-        }
+        if (ButtonHighlightScript2.currentlyHighlightedButton == null) return; // if no song is currently selected
+        if (eventData.position.x < startingPosition) return; // if cursor position is further left than the starting position of the progress bar
+        if (eventData.position.x > endingPosition) return; // if cursor position is further right than the ending position of the progress bar
 
         knob.transform.position = new Vector3(eventData.position.x, knob.transform.position.y, knob.transform.position.z); // change knob position according to cursor drag
     }
@@ -67,7 +59,7 @@ public class ProgressBarScript : MonoBehaviour
         int seconds = (int)ControlPanelScript.audioSource.time;
         int minutes = seconds / 60;
         seconds %= 60; // seconds must be modulo'd after getting minutes to allow minutes to be calculated
-
+        
         if (seconds < 10)
         {
             progressText.text = $"{minutes}:0{seconds} / {ControlPanelScript.formattedAudioLength}";

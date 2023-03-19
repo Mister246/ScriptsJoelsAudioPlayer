@@ -43,6 +43,8 @@ public class ButtonHighlightScript2 : MonoBehaviour
             button.GetComponentInChildren<TextMeshProUGUI>().color = defaultBackgroundColor; // change button text to #3C3C3C
             button.highlighted = true; // button is now highlighted
             currentlyHighlightedButton = this; // create a reference to this button so it can be dehighlighted when another button is highlighted
+            ControlPanelScript.LoadAudio(currentlyHighlightedButton.name);
+            ProgressBarScript.DisplayProgressInTime();
         }
     }
 

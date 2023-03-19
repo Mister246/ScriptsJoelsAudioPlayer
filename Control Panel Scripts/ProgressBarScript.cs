@@ -31,7 +31,7 @@ public class ProgressBarScript : MonoBehaviour
     {
         if (!ControlPanelScript.audioSource.isPlaying) return;
 
-        DisplayProgressInTime();
+        DisplayProgressInTime(); // continuously update progress text
         audioProgressPercentage = ControlPanelScript.audioSource.time / ControlPanelScript.audioSource.clip.length; // determine how much of the audio file has been played
         knob.transform.position = new Vector3(startingPosition + (800 * audioProgressPercentage), knob.transform.position.y, knob.transform.position.z); // move knob according to percentage
     }

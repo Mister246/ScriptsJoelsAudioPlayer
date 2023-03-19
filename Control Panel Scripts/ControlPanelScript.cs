@@ -86,8 +86,9 @@ public class ControlPanelScript : MonoBehaviour
         }
 
         audioSource.clip.name = audioFileName;
+        audioSource.time = 0; // ensures playback position always starts at 0 
 
-        if (audioSource.clip.length < 10)
+        if ((audioSource.clip.length % 60) < 10)
         {
             formattedAudioLength = $"{(int)audioSource.clip.length / 60}:0{(int)audioSource.clip.length % 60}";
         }
@@ -170,5 +171,6 @@ public class ControlPanelScript : MonoBehaviour
         }
 
         StopAudio();
+        audioSource.time = 0f; // reset playback position
     }
 }

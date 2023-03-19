@@ -14,15 +14,16 @@ public class ProgressBarScript : MonoBehaviour
     // for the logic of this script, knob starts at x = 0 and ends at x = 800
     static public Text progressText; // display of clip.time out of clip.length
 
-    static float startingPosition; // x = 0 for the knob
-    static float endingPosition; // x = 800 for the knob
+    public static float startingPosition; // x = 0 for the knob
+    public static float endingPosition; // x = 800 for the knob
+    public static int LENGTH = 800; // length of progress bar
     float audioProgressPercentage; // represents how much of the audio file has been played
 
     void Start()
     {
         knob = GameObject.Find("Knob");
         startingPosition = knob.transform.position.x; // x = 0
-        endingPosition = knob.transform.position.x + 800; // x = 800
+        endingPosition = knob.transform.position.x + LENGTH; // x = 800
 
         progressText = FindObjectOfType<Text>();
     }
@@ -33,7 +34,7 @@ public class ProgressBarScript : MonoBehaviour
 
         DisplayProgressInTime(); // continuously update progress text
         audioProgressPercentage = ControlPanelScript.audioSource.time / ControlPanelScript.audioSource.clip.length; // determine how much of the audio file has been played
-        knob.transform.position = new Vector3(startingPosition + (800 * audioProgressPercentage), knob.transform.position.y, knob.transform.position.z); // move knob according to percentage
+        knob.transform.position = new Vector3(startingPosition + (LENGTH * audioProgressPercentage), knob.transform.position.y, knob.transform.position.z); // move knob according to percentage
     }
 
     static public void ResetProgressBar()
@@ -42,11 +43,12 @@ public class ProgressBarScript : MonoBehaviour
         progressText.text = ""; // clear progress text
     }
 
-    static public void ChangeKnobPosition(PointerEventData eventData)
+    static public void DragKnob(PointerEventData eventData)
     // allows the user to click and hold on the knob to change the playback position of audio
     // function gets event data from KnobScript, which is attached to the Knob object
     {
         if (ButtonHighlightScript2.currentlyHighlightedButton == null) return; // if no song is currently selected
+        if (ControlPanelScript.audioSource.isPlaying) ControlPanelScript.PauseAudio(); // pause while dragging 
         if (eventData.position.x < startingPosition) return; // if cursor position is further left than the starting position of the progress bar
         if (eventData.position.x > endingPosition) return; // if cursor position is further right than the ending position of the progress bar
 

@@ -7,9 +7,15 @@ using UnityEngine.UIElements;
 public class KnobScript : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     public void OnDrag(PointerEventData eventData)
+    // allows the user to click and hold on the knob to change the playback position of audio
+    // function gets event data from KnobScript, which is attached to the Knob object
     {
         if (ButtonHighlightScript2.currentlyHighlightedButton == null) return; // if no song is currently selected
-        ProgressBarScript.DragKnob(eventData);
+        if (ControlPanelScript.audioSource.isPlaying) ControlPanelScript.PauseAudio(); // pause while dragging 
+        if (eventData.position.x < ProgressBarScript.startingPosition) return; // if cursor position is further left than the starting position of the progress bar
+        if (eventData.position.x > ProgressBarScript.endingPosition) return; // if cursor position is further right than the ending position of the progress bar
+
+        transform.position = new Vector3(eventData.position.x, transform.position.y, transform.position.z); // change knob position according to cursor drag
     }
 
     public void OnEndDrag(PointerEventData eventData)

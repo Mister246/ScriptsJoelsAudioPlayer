@@ -7,7 +7,6 @@ public class LoopOptionScript : MonoBehaviour
 {
     static Image image;
     Button button;
-    static public bool loop = false;
     static public ControlPanelScript controlPanel;
 
     void Start()
@@ -24,18 +23,16 @@ public class LoopOptionScript : MonoBehaviour
     public void ToggleLoop()
     // Determine if audio should loop
     {
-        loop = !loop;
+        ControlPanelScript.audioSource.loop = !ControlPanelScript.audioSource.loop; // toggle loop flag
 
-        if (loop)
+        if (ControlPanelScript.audioSource.loop)
         {
             image.sprite = DropdownMenuScript.trueToggleSprite;
         }
         else
         {
             image.sprite = DropdownMenuScript.falseToggleSprite;
-            StartCoroutine(controlPanel.OnAudioEnd(ControlPanelScript.audioSource.clip.length - ControlPanelScript.audioSource.time));
+            controlPanel.StartCoroutine(controlPanel.OnAudioEnd(ControlPanelScript.audioSource.clip.length - ControlPanelScript.audioSource.time)); // start coroutine from control panel in order to ensure audio properly stops upon completion
         }
-
-        ControlPanelScript.audioSource.loop = loop;
     }
 }

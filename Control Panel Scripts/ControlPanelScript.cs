@@ -105,15 +105,13 @@ public class ControlPanelScript : MonoBehaviour
 
     public void PlayAudio()
     {
-        if (!audioSource.clip.IsUnityNull())
-        // if a clip is loaded
-        {
-            pausePlayButtonImage.sprite = pauseSprite;
-            audioSource.Play();
-            StartCoroutine(OnAudioEnd(audioSource.clip.length - audioSource.time));
-            // start coroutine to execute when audio file is finished playing
-            // (audioSource.clip.length - audioSource.time) is the remaining time for the audio file
-        }
+        if (audioSource.clip.IsUnityNull()) return; // if no clip is loaded
+
+        pausePlayButtonImage.sprite = pauseSprite;
+        audioSource.Play();
+        StartCoroutine(OnAudioEnd(audioSource.clip.length - audioSource.time));
+        // start coroutine to execute when audio file is finished playing
+        // (audioSource.clip.length - audioSource.time) is the remaining time for the audio file
     }
 
     static public void PauseAudio()
@@ -152,8 +150,6 @@ public class ControlPanelScript : MonoBehaviour
     public IEnumerator OnAudioEnd(float audioDuration)
     // executes once audioDuration seconds have passed
     {
-        Debug.Log($"starting coroutine of {audioDuration} seconds");
-
         string audioFile = audioSource.clip.name; 
         // save reference to audio file that was playing when starting the coroutine
         float currentTime = audioSource.time; 
@@ -161,7 +157,6 @@ public class ControlPanelScript : MonoBehaviour
 
         yield return new WaitForSeconds(audioDuration);
         // wait for audio file to end
-        Debug.Log("finished waiting");
 
         if (audioFile != audioSource.clip.name)
         // if at some point started playing another clip

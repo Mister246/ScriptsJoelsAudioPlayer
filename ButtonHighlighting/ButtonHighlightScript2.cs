@@ -16,7 +16,7 @@ public class ButtonHighlightScript2 : MonoBehaviour
     Button button; // button component of this game object
     public bool highlighted; // bool to determine if this is highlighted
     static public ButtonHighlightScript2 currentlyHighlightedButton; // global static reference to whichever button is currently highlighted
-    Color defaultBackgroundColor = new(0.235f, 0.235f, 0.235f); // color is #3C3C3C
+    static Color defaultBackgroundColor = new(0.235f, 0.235f, 0.235f); // color is #3C3C3C
 
     void Start()
     {
@@ -27,7 +27,7 @@ public class ButtonHighlightScript2 : MonoBehaviour
         // when a button spawns it is not highlighted
     }
 
-    void HighlightButton(ButtonHighlightScript2 button)
+    static public void HighlightButton(ButtonHighlightScript2 button)
     // highlights the button if it is not already highlighted
     // dehighlights the button if it is already highlighted
     {
@@ -45,22 +45,20 @@ public class ButtonHighlightScript2 : MonoBehaviour
             button.GetComponent<Image>().color = Color.white; // change button background color to white
             button.GetComponentInChildren<TextMeshProUGUI>().color = defaultBackgroundColor; // change button text to #3C3C3C
             button.highlighted = true; // button is now highlighted
-            currentlyHighlightedButton = this; // create a reference to this button so it can be dehighlighted when another button is highlighted
+            currentlyHighlightedButton = button; // create a reference to this button so it can be dehighlighted when another button is highlighted
             ControlPanelScript.LoadAudio(currentlyHighlightedButton.name); 
             ProgressBarScript.DisplayProgressInTime(); // display playback info of loaded audio
             ProgressBarScript.UpdateKnobPosition(); // if selecting audio that was previously selected, move knob to where it left off
         }
     }
 
-    void DehighlightButton(ButtonHighlightScript2 button)
+    static void DehighlightButton(ButtonHighlightScript2 button)
     {
-        if (currentlyHighlightedButton != null)
-        // if a button was previously selected
-        {
-            button.GetComponent<Image>().color = defaultBackgroundColor; // change button background color to default
-            button.GetComponentInChildren<TextMeshProUGUI>().color = Color.white; // change button text to default
-            button.highlighted = false;
-            currentlyHighlightedButton = null;
-        }
+        if (currentlyHighlightedButton == null) return; // if a button was not previously selected
+
+        button.GetComponent<Image>().color = defaultBackgroundColor; // change button background color to default
+        button.GetComponentInChildren<TextMeshProUGUI>().color = Color.white; // change button text to default
+        button.highlighted = false;
+        currentlyHighlightedButton = null;
     }
 }

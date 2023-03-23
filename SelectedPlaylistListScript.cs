@@ -12,7 +12,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
     static Button audioFileButton;
     static Transform list;
     public static string currentlyLoadedPlaylist;
-    static List<Button> loadedButtons = new();
+    public static List<Button> loadedButtons = new();
     static public FileInfo[] audioFiles;
 
     void Start()

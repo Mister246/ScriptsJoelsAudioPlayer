@@ -22,7 +22,7 @@ public class DropdownMenuScript : MonoBehaviour
 
         button = GetComponent<Button>();
 
-        dropdownMenu = GameObject.Find("Dropdown Menu");
+        dropdownMenu = GameObject.Find("Dropdown Menu Background");
         dropdownMenu.SetActive(false);
 
         button.onClick.AddListener(delegate { DisplayDropdownMenu(); } );

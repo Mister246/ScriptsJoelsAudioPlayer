@@ -21,7 +21,7 @@ public class ControlPanelScript : MonoBehaviour
     static public GameObject progressBar;
     static public string formattedAudioLength; // audio length formatted in minutes:seconds
 
-    static public GameObject dropdownMenuButton;
+    static public GameObject dropdownMenu;
 
     static public AudioSource audioSource;
 
@@ -37,18 +37,18 @@ public class ControlPanelScript : MonoBehaviour
         pausePlayObject.SetActive(false); // Pause/Play Button is hidden by default
         pausePlayButton = pausePlayObject.GetComponent<Button>();
         pausePlayButtonImage = pausePlayButton.GetComponent<Image>();
-        pausePlayButton.onClick.AddListener(delegate { AudioManagement(ButtonHighlightScript2.currentlyHighlightedButton); } );
+        pausePlayButton.onClick.AddListener(delegate { AudioManagement(); } );
 
         progressBar = GameObject.Find("Progress Bar");
         progressBar.SetActive(false); // Progress Bar is hidden by default
 
-        dropdownMenuButton = GameObject.Find("Dropdown Menu Button");
-        dropdownMenuButton.SetActive(false); // Dropdown Menu button is hidden by default
+        dropdownMenu = GameObject.Find("Dropdown Menu");
+        dropdownMenu.SetActive(false); // Dropdown Menu button is hidden by default
 
         audioSource = GetComponent<AudioSource>();
     }
 
-    void AudioManagement(ButtonHighlightScript2 selectedButton)
+    void AudioManagement()
     {
         if (!audioSource.isPlaying && ButtonHighlightScript2.currentlyHighlightedButton != null)
         // if nothing is playing and an audio file is selected
@@ -134,7 +134,7 @@ public class ControlPanelScript : MonoBehaviour
     static public void HideControlPanel()
     {
         pausePlayObject.SetActive(false);
-        dropdownMenuButton.SetActive(false);
+        dropdownMenu.SetActive(false);
         ProgressBarScript.ResetProgressBar();
         progressBar.SetActive(false);
     }
@@ -142,7 +142,7 @@ public class ControlPanelScript : MonoBehaviour
     static public void DisplayControlPanel()
     {
         pausePlayObject.SetActive(true);
-        dropdownMenuButton.SetActive(true);
+        dropdownMenu.SetActive(true);
         progressBar.SetActive(true);
         controlPanelText.text = ""; // hide text
     }
@@ -178,6 +178,23 @@ public class ControlPanelScript : MonoBehaviour
         if (audioSource.loop)
         {
             yield break;
+        }
+
+        if (AutoplayOptionScript.autoPlay)
+        {
+            for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length - 1; i++)
+            // for each loaded audio file except the last
+            {
+                if (SelectedPlaylistListScript.audioFiles[i].Name == audioSource.clip.name)
+                // if this is the currently loaded audio file
+                {
+                    string nextAudioFile = SelectedPlaylistListScript.audioFiles[i + 1].Name;
+                    ButtonHighlightScript2.HighlightButton(GameObject.Find(nextAudioFile).GetComponent<ButtonHighlightScript2>()); // highlight next audio file's button
+                    LoadAudio(nextAudioFile);
+                    PlayAudio(); 
+                    yield break;
+                }
+            }
         }
 
         StopAudio();

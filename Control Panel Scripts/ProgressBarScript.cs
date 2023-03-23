@@ -25,7 +25,7 @@ public class ProgressBarScript : MonoBehaviour
         startingPosition = knob.transform.position.x; // x = 0
         endingPosition = knob.transform.position.x + LENGTH; // x = 800
 
-        progressText = FindObjectOfType<Text>();
+        progressText = GameObject.Find("Progress Text").GetComponent<Text>();
     }
 
     static public void DisplayProgressInTime()
@@ -65,16 +65,5 @@ public class ProgressBarScript : MonoBehaviour
     {
         knob.transform.position = new Vector3(startingPosition, knob.transform.position.y, knob.transform.position.z); // reset knob back to starting position
         progressText.text = ""; // clear progress text
-    }
-
-    static public void DragKnob(PointerEventData eventData)
-    // allows the user to click and hold on the knob to change the playback position of audio
-    // function gets event data from KnobScript, which is attached to the Knob object
-    {
-        if (ControlPanelScript.audioSource.isPlaying) ControlPanelScript.PauseAudio(); // pause while dragging 
-        if (eventData.position.x < startingPosition) return; // if cursor position is further left than the starting position of the progress bar
-        if (eventData.position.x > endingPosition) return; // if cursor position is further right than the ending position of the progress bar
-
-        knob.transform.position = new Vector3(eventData.position.x, knob.transform.position.y, knob.transform.position.z); // change knob position according to cursor drag
     }
 }

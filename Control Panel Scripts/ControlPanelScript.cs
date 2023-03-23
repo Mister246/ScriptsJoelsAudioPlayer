@@ -21,6 +21,8 @@ public class ControlPanelScript : MonoBehaviour
     static public GameObject progressBar;
     static public string formattedAudioLength; // audio length formatted in minutes:seconds
 
+    static public GameObject dropdownMenuButton;
+
     static public AudioSource audioSource;
 
     void Start()
@@ -39,6 +41,9 @@ public class ControlPanelScript : MonoBehaviour
 
         progressBar = GameObject.Find("Progress Bar");
         progressBar.SetActive(false); // Progress Bar is hidden by default
+
+        dropdownMenuButton = GameObject.Find("Dropdown Menu Button");
+        dropdownMenuButton.SetActive(false); // Dropdown Menu button is hidden by default
 
         audioSource = GetComponent<AudioSource>();
     }
@@ -131,6 +136,7 @@ public class ControlPanelScript : MonoBehaviour
     static public void HideControlPanel()
     {
         pausePlayObject.SetActive(false);
+        dropdownMenuButton.SetActive(false);
         ProgressBarScript.ResetProgressBar();
         progressBar.SetActive(false);
     }
@@ -138,6 +144,7 @@ public class ControlPanelScript : MonoBehaviour
     static public void DisplayControlPanel()
     {
         pausePlayObject.SetActive(true);
+        dropdownMenuButton.SetActive(true);
         progressBar.SetActive(true);
         controlPanelText.text = ""; // hide text
     }
@@ -145,6 +152,8 @@ public class ControlPanelScript : MonoBehaviour
     public IEnumerator OnAudioEnd(float audioDuration)
     // executes once audioDuration seconds have passed
     {
+        Debug.Log($"starting coroutine of {audioDuration} seconds");
+
         string audioFile = audioSource.clip.name; 
         // save reference to audio file that was playing when starting the coroutine
         float currentTime = audioSource.time; 
@@ -152,6 +161,7 @@ public class ControlPanelScript : MonoBehaviour
 
         yield return new WaitForSeconds(audioDuration);
         // wait for audio file to end
+        Debug.Log("finished waiting");
 
         if (audioFile != audioSource.clip.name)
         // if at some point started playing another clip
@@ -168,6 +178,11 @@ public class ControlPanelScript : MonoBehaviour
             {
                 yield break;
             }
+        }
+
+        if (audioSource.loop)
+        {
+            yield break;
         }
 
         StopAudio();

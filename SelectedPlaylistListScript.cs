@@ -34,6 +34,12 @@ public class SelectedPlaylistListScript : MonoBehaviour
             {
                 return; // no need to reload
             }
+
+            if (ShuffleOptionScript.shuffle && isShuffled)
+            // if shuffle is enabled and audio files are already shuffled
+            {
+                return; // no need to reshuffle
+            }
         }
 
         UnloadButtons(); // unload any buttons currently in the list
@@ -52,7 +58,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
 
         if (ShuffleOptionScript.shuffle)
         {
-            ShuffleOptionScript.Shuffle();
+            Shuffle();
             isShuffled = true;
         }
         else
@@ -70,13 +76,6 @@ public class SelectedPlaylistListScript : MonoBehaviour
         }
     }
 
-    static FileInfo[] LoadAudioFiles(string playlistName)
-    {
-        DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
-        currentlyLoadedPlaylist = playlistName;
-        return playlist.GetFiles("*.ogg");
-    }
-
     static public void UnloadButtons()
     {
         if (loadedButtons.Count > 0)
@@ -88,5 +87,26 @@ public class SelectedPlaylistListScript : MonoBehaviour
             }
         }
         ButtonHighlightScript2.currentlyHighlightedButton = null; // once buttons are unloaded, nothing is highlighted
+    }
+
+    static FileInfo[] LoadAudioFiles(string playlistName)
+    {
+        DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
+        currentlyLoadedPlaylist = playlistName;
+        return playlist.GetFiles("*.ogg");
+    }
+
+    static public void Shuffle()
+    // shuffles array of loaded audio files
+    {
+        for (int i = 0; i < audioFiles.Length; i++)
+        // for each loaded audio file
+        {
+            int randomIndex = Random.Range(0, audioFiles.Length);
+
+            FileInfo temp = audioFiles[i];
+            audioFiles[i] = audioFiles[randomIndex];
+            audioFiles[randomIndex] = temp;
+        }
     }
 }

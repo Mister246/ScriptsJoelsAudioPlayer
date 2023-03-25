@@ -24,27 +24,13 @@ public class ShuffleOptionScript : MonoBehaviour
 
         if (shuffle)
         {
-            image.sprite = DropdownMenuScript.trueToggleSprite;
+            image.sprite = DropdownMenuScript.trueToggleSprite; // audio files will shuffle after being loaded
         }
         else
         {
-            image.sprite = DropdownMenuScript.falseToggleSprite;
+            image.sprite = DropdownMenuScript.falseToggleSprite; // audio files will be loaded in their original order
         }
 
         SelectedPlaylistListScript.GenerateAudioFileList(SelectedPlaylistListScript.currentlyLoadedPlaylist); // reload audio file list
-    }
-
-    static public void Shuffle()
-    // shuffles array of loaded audio files
-    {
-        for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length; i++)
-        // for each loaded audio file
-        {
-            int randomIndex = Random.Range(0, SelectedPlaylistListScript.audioFiles.Length);
-
-            FileInfo temp = SelectedPlaylistListScript.audioFiles[i];
-            SelectedPlaylistListScript.audioFiles[i] = SelectedPlaylistListScript.audioFiles[randomIndex];
-            SelectedPlaylistListScript.audioFiles[randomIndex] = temp;
-        }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine.U2D.Animation;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using Unity.VisualScripting;
+using System.IO;
 
 public class ControlPanelScript : MonoBehaviour
 {
@@ -145,6 +146,20 @@ public class ControlPanelScript : MonoBehaviour
         dropdownMenu.SetActive(true);
         progressBar.SetActive(true);
         controlPanelText.text = ""; // hide text
+    }
+
+    static public void Shuffle()
+    {
+        for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length; i++)
+        // for each loaded audio file
+        {
+            int randomIndex1 = Random.Range(0, SelectedPlaylistListScript.audioFiles.Length);
+            int randomIndex2 = Random.Range(0, SelectedPlaylistListScript.audioFiles.Length);
+
+            FileInfo temp = SelectedPlaylistListScript.audioFiles[randomIndex1];
+            SelectedPlaylistListScript.audioFiles[randomIndex1] = SelectedPlaylistListScript.audioFiles[randomIndex2];
+            SelectedPlaylistListScript.audioFiles[randomIndex2] = temp;
+        }
     }
 
     public IEnumerator OnAudioEnd(float audioDuration)

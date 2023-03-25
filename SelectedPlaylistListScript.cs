@@ -59,7 +59,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
     {
         DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
         currentlyLoadedPlaylist = playlistName;
-        return playlist.GetFiles("*.ogg"); // update to support more file types in the future
+        return playlist.GetFiles("*.ogg");
     }
 
     static public void UnloadButtons()

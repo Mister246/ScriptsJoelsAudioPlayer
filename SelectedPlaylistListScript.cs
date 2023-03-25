@@ -25,12 +25,6 @@ public class SelectedPlaylistListScript : MonoBehaviour
     static public void GenerateAudioFileList(string selectedPlaylist)
     // creates a scrollable list of audio files located in the selected playlist
     {
-        if (selectedPlaylist == currentlyLoadedPlaylist)
-        {
-            return;
-            // prevents already loaded audio files from loading again
-        }
-
         UnloadButtons(); // unload any buttons currently in the list
         ControlPanelScript.StopAudio(); // stop playing any audio if there is any
 
@@ -44,6 +38,8 @@ public class SelectedPlaylistListScript : MonoBehaviour
         {
             ControlPanelScript.DisplayControlPanel();
         }
+
+        if (ShuffleOptionScript.shuffle) ShuffleOptionScript.Shuffle();
 
         for (int i = 0; i < audioFiles.Length; i++)
         {

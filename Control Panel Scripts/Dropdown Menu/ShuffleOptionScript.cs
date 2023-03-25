@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,11 +25,27 @@ public class ShuffleOptionScript : MonoBehaviour
         if (shuffle)
         {
             image.sprite = DropdownMenuScript.trueToggleSprite;
-            ControlPanelScript.Shuffle();
         }
         else
         {
             image.sprite = DropdownMenuScript.falseToggleSprite;
+        }
+
+        SelectedPlaylistListScript.GenerateAudioFileList(SelectedPlaylistListScript.currentlyLoadedPlaylist); // reload audio file list
+    }
+
+    static public void Shuffle()
+    // shuffles array of loaded audio files
+    {
+        for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length; i++)
+        // for each loaded audio file
+        {
+            int randomIndex1 = Random.Range(0, SelectedPlaylistListScript.audioFiles.Length);
+            int randomIndex2 = Random.Range(0, SelectedPlaylistListScript.audioFiles.Length);
+
+            FileInfo temp = SelectedPlaylistListScript.audioFiles[randomIndex1];
+            SelectedPlaylistListScript.audioFiles[randomIndex1] = SelectedPlaylistListScript.audioFiles[randomIndex2];
+            SelectedPlaylistListScript.audioFiles[randomIndex2] = temp;
         }
     }
 }

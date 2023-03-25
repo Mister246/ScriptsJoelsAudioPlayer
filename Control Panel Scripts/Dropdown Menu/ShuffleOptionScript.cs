@@ -40,12 +40,11 @@ public class ShuffleOptionScript : MonoBehaviour
         for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length; i++)
         // for each loaded audio file
         {
-            int randomIndex1 = Random.Range(0, SelectedPlaylistListScript.audioFiles.Length);
-            int randomIndex2 = Random.Range(0, SelectedPlaylistListScript.audioFiles.Length);
+            int randomIndex = Random.Range(0, SelectedPlaylistListScript.audioFiles.Length);
 
-            FileInfo temp = SelectedPlaylistListScript.audioFiles[randomIndex1];
-            SelectedPlaylistListScript.audioFiles[randomIndex1] = SelectedPlaylistListScript.audioFiles[randomIndex2];
-            SelectedPlaylistListScript.audioFiles[randomIndex2] = temp;
+            FileInfo temp = SelectedPlaylistListScript.audioFiles[i];
+            SelectedPlaylistListScript.audioFiles[i] = SelectedPlaylistListScript.audioFiles[randomIndex];
+            SelectedPlaylistListScript.audioFiles[randomIndex] = temp;
         }
     }
 }

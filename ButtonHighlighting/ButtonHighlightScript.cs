@@ -40,13 +40,11 @@ public class ButtonHighlightScript : MonoBehaviour
 
     void DehighlightButton(ButtonHighlightScript button)
     {
-        if (currentlyHighlightedButton != null)
-        // if a button was previously selected
-        {
-            button.GetComponent<Image>().color = defaultBackgroundColor; // change button background color to default
-            button.GetComponentInChildren<TextMeshProUGUI>().color = Color.white; // change button text to default
-            button.highlighted = false;
-            currentlyHighlightedButton = null;
-        }
+        if (currentlyHighlightedButton == null) return; // if a button was not previously selected
+
+        button.GetComponent<Image>().color = defaultBackgroundColor; // change button background color to default
+        button.GetComponentInChildren<TextMeshProUGUI>().color = Color.white; // change button text to default
+        button.highlighted = false;
+        currentlyHighlightedButton = null;
     }
 }

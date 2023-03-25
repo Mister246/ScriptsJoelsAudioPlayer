@@ -14,6 +14,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
     public static string currentlyLoadedPlaylist;
     public static List<Button> loadedButtons = new();
     static public FileInfo[] audioFiles;
+    static public bool isShuffled;
 
     void Start()
     {
@@ -25,6 +26,16 @@ public class SelectedPlaylistListScript : MonoBehaviour
     static public void GenerateAudioFileList(string selectedPlaylist)
     // creates a scrollable list of audio files located in the selected playlist
     {
+        if (currentlyLoadedPlaylist == selectedPlaylist)
+        // if attempting to reload playlist
+        {
+            if (!ShuffleOptionScript.shuffle && !isShuffled)
+            // if shuffle is disabled and audio files are not shuffled
+            {
+                return; // no need to reload
+            }
+        }
+
         UnloadButtons(); // unload any buttons currently in the list
         ControlPanelScript.StopAudio(); // stop playing any audio if there is any
 
@@ -39,7 +50,15 @@ public class SelectedPlaylistListScript : MonoBehaviour
             ControlPanelScript.DisplayControlPanel();
         }
 
-        if (ShuffleOptionScript.shuffle) ShuffleOptionScript.Shuffle();
+        if (ShuffleOptionScript.shuffle)
+        {
+            ShuffleOptionScript.Shuffle();
+            isShuffled = true;
+        }
+        else
+        {
+            isShuffled = false;
+        }
 
         for (int i = 0; i < audioFiles.Length; i++)
         {

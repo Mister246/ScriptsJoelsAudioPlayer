@@ -110,6 +110,7 @@ public class ControlPanelScript : MonoBehaviour
 
         pausePlayButtonImage.sprite = pauseSprite;
         audioSource.Play();
+        StopAllCoroutines();
         StartCoroutine(OnAudioEnd(audioSource.clip.length - audioSource.time));
         // start coroutine to execute when audio file is finished playing
         // (audioSource.clip.length - audioSource.time) is the remaining time for the audio file
@@ -158,12 +159,6 @@ public class ControlPanelScript : MonoBehaviour
 
         yield return new WaitForSeconds(audioDuration);
         // wait for audio file to end
-
-        if (audioFile != audioSource.clip.name)
-        // if at some point started playing another clip
-        {
-            yield break;
-        }
 
         if (audioSource.time > 0)
         {

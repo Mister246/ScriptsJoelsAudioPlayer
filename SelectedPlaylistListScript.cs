@@ -15,11 +15,13 @@ public class SelectedPlaylistListScript : MonoBehaviour
     public static List<Button> loadedButtons = new();
     static public FileInfo[] audioFiles;
     static public bool isShuffled;
+    static public ControlPanelScript controlPanel;
 
     void Start()
     {
         list = transform;
         audioFileButton = referencedButton;
+        controlPanel = GameObject.Find("Control Panel").GetComponent<ControlPanelScript>();
         // have to manually assign these because the below functions are static
     }
 
@@ -58,6 +60,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
 
         if (ShuffleOptionScript.shuffle)
         {
+            controlPanel.StopAllCoroutines();
             Shuffle();
             isShuffled = true;
         }

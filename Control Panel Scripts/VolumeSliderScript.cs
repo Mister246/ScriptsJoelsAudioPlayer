@@ -11,7 +11,6 @@ public class VolumeSliderScript : MonoBehaviour
     void Start()
     {
         slider = GetComponent<Slider>();
-
         slider.onValueChanged.AddListener(delegate { ChangeVolume(); } ); 
     }
 

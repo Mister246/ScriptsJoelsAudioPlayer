@@ -32,10 +32,11 @@ public class ButtonHighlightScript2 : MonoBehaviour
     // dehighlights the button if it is already highlighted
     {
         ControlPanelScript.PauseAudio();
-        ProgressBarScript.ResetProgressBar();
+        ProgressBarScriptV2.ResetProgressBar();
 
         if (button.highlighted)
         {
+            ProgressBarScriptV2.slider.interactable = false;
             DehighlightButton(button);
         }
         else 
@@ -46,9 +47,10 @@ public class ButtonHighlightScript2 : MonoBehaviour
             button.GetComponentInChildren<TextMeshProUGUI>().color = defaultBackgroundColor; // change button text to #3C3C3C
             button.highlighted = true; // button is now highlighted
             currentlyHighlightedButton = button; // create a reference to this button so it can be dehighlighted when another button is highlighted
+            ProgressBarScriptV2.slider.interactable = true;
             ControlPanelScript.LoadAudio(currentlyHighlightedButton.name); 
-            ProgressBarScript.DisplayProgressInTime(); // display playback info of loaded audio
-            ProgressBarScript.UpdateKnobPosition(); // if selecting audio that was previously selected, move knob to where it left off
+            ProgressBarScriptV2.DisplayProgressInTime(); // display playback info of loaded audio
+            ProgressBarScriptV2.UpdatePlaybackPosition(); // if selecting audio that was previously selected, move knob to where it left off
         }
     }
 

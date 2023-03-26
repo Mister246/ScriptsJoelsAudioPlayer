@@ -137,7 +137,7 @@ public class ControlPanelScript : MonoBehaviour
     {
         pausePlayObject.SetActive(false);
         dropdownMenu.SetActive(false);
-        ProgressBarScript.ResetProgressBar();
+        ProgressBarScriptV2.ResetProgressBar();
         progressBar.SetActive(false);
     }
 

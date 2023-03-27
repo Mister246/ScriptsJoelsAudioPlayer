@@ -24,6 +24,11 @@ public class ControlPanelScript : MonoBehaviour
 
     static public GameObject dropdownMenu;
 
+    static public GameObject volumeSlider;
+
+    static public GameObject backwardButton;
+    static public GameObject forwardButton;
+
     static public AudioSource audioSource;
 
     void Start()
@@ -45,6 +50,14 @@ public class ControlPanelScript : MonoBehaviour
 
         dropdownMenu = GameObject.Find("Dropdown Menu");
         dropdownMenu.SetActive(false); // Dropdown Menu button is hidden by default
+
+        volumeSlider = GameObject.Find("Volume Slider");
+        volumeSlider.SetActive(false);
+
+        backwardButton = GameObject.Find("Backward Button");
+        backwardButton.SetActive(false);
+        forwardButton = GameObject.Find("Forward Button");
+        forwardButton.SetActive(false);
 
         audioSource = GetComponent<AudioSource>();
     }
@@ -104,6 +117,38 @@ public class ControlPanelScript : MonoBehaviour
         }
     }
 
+    static public string GetNextAudio()
+    // returns the name of the next audio file in the playlist
+    {
+        for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length - 1; i++)
+        // for each loaded audio file except the last
+        {
+            if (SelectedPlaylistListScript.audioFiles[i].Name == audioSource.clip.name)
+            // if this is the currently loaded audio file
+            {
+                return SelectedPlaylistListScript.audioFiles[i + 1].Name; // return next audio
+            }
+        }
+
+        return null; // most likely end of playlist
+    }
+
+    static public string GetPreviousAudio()
+    // returns the name of the previous audio file in the playlist
+    {
+        for (int i = 1; i < SelectedPlaylistListScript.audioFiles.Length; i++)
+        // for each loaded audio file except the first
+        {
+            if (SelectedPlaylistListScript.audioFiles[i].Name == audioSource.clip.name)
+            // if this is the currently loaded audio file
+            {
+                return SelectedPlaylistListScript.audioFiles[i - 1].Name; // return previous audio
+            }
+        }
+
+        return null; // most likely beginning of playlist
+    }
+
     public void PlayAudio()
     {
         if (audioSource.clip.IsUnityNull()) return; // if no clip is loaded
@@ -139,6 +184,9 @@ public class ControlPanelScript : MonoBehaviour
         dropdownMenu.SetActive(false);
         ProgressBarScriptV2.ResetProgressBar();
         progressBar.SetActive(false);
+        volumeSlider.SetActive(false);
+        backwardButton.SetActive(false);
+        forwardButton.SetActive(false);
     }
 
     static public void DisplayControlPanel()
@@ -146,6 +194,9 @@ public class ControlPanelScript : MonoBehaviour
         pausePlayObject.SetActive(true);
         dropdownMenu.SetActive(true);
         progressBar.SetActive(true);
+        volumeSlider.SetActive(true);
+        backwardButton.SetActive(true);
+        forwardButton.SetActive(true);
         controlPanelText.text = ""; // hide text
     }
 
@@ -178,19 +229,8 @@ public class ControlPanelScript : MonoBehaviour
 
         if (AutoplayOptionScript.autoPlay)
         {
-            for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length - 1; i++)
-            // for each loaded audio file except the last
-            {
-                if (SelectedPlaylistListScript.audioFiles[i].Name == audioSource.clip.name)
-                // if this is the currently loaded audio file
-                {
-                    string nextAudioFile = SelectedPlaylistListScript.audioFiles[i + 1].Name;
-                    ButtonHighlightScript2.HighlightButton(GameObject.Find(nextAudioFile).GetComponent<ButtonHighlightScript2>()); // highlight next audio file's button
-                    LoadAudio(nextAudioFile);
-                    PlayAudio(); 
-                    yield break;
-                }
-            }
+            ForwardButtonScript.PlayNextAudio();
+            yield break;
         }
 
         StopAudio();

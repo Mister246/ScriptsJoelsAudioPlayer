@@ -117,36 +117,21 @@ public class ControlPanelScript : MonoBehaviour
         }
     }
 
-    static public string GetNextAudio()
-    // returns the name of the next audio file in the playlist
+    static public int GetIndexOfAudio()
+    // returns the index of the audio clip currently loaded in the audio files array
     {
-        for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length - 1; i++)
-        // for each loaded audio file except the last
+        for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length; i++)
+        // for each loaded audio file
         {
             if (SelectedPlaylistListScript.audioFiles[i].Name == audioSource.clip.name)
             // if this is the currently loaded audio file
             {
-                return SelectedPlaylistListScript.audioFiles[i + 1].Name; // return next audio
+                return i; 
             }
         }
 
-        return null; // most likely end of playlist
-    }
-
-    static public string GetPreviousAudio()
-    // returns the name of the previous audio file in the playlist
-    {
-        for (int i = 1; i < SelectedPlaylistListScript.audioFiles.Length; i++)
-        // for each loaded audio file except the first
-        {
-            if (SelectedPlaylistListScript.audioFiles[i].Name == audioSource.clip.name)
-            // if this is the currently loaded audio file
-            {
-                return SelectedPlaylistListScript.audioFiles[i - 1].Name; // return previous audio
-            }
-        }
-
-        return null; // most likely beginning of playlist
+        Debug.Log("ERROR: Unable to find index of audio [GetIndexOfAudio()]");
+        return 0; 
     }
 
     public void PlayAudio()

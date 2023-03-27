@@ -19,9 +19,11 @@ public class ForwardButtonScript : MonoBehaviour
     {
         if (ButtonHighlightScript2.currentlyHighlightedButton == null) return; // if no audio is currently selected, do nothing
 
-        string nextAudio = ControlPanelScript.GetNextAudio();
-        if (nextAudio != null)
+        int index = ControlPanelScript.GetIndexOfAudio();
+        if (index != SelectedPlaylistListScript.audioFiles.Length - 1)
+        // if not reached the end of playlist
         {
+            string nextAudio = SelectedPlaylistListScript.audioFiles[index + 1].Name;
             ButtonHighlightScript2.HighlightButton(GameObject.Find(nextAudio).GetComponent<ButtonHighlightScript2>()); // highlight next audio file's button
             ControlPanelScript.LoadAudio(nextAudio);
             controlPanel.PlayAudio();

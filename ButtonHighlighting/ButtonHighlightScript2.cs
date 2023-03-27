@@ -51,6 +51,7 @@ public class ButtonHighlightScript2 : MonoBehaviour
             ControlPanelScript.LoadAudio(currentlyHighlightedButton.name); 
             ProgressBarScriptV2.DisplayProgressInTime(); // display playback info of loaded audio
             ProgressBarScriptV2.UpdatePlaybackPosition(); // if selecting audio that was previously selected, move knob to where it left off
+            ScrollbarSelectedPlaylistListSectionScript.SnapScrollbarToButton(ControlPanelScript.GetIndexOfAudio());
         }
     }
 

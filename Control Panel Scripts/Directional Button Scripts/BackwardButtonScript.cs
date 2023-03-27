@@ -19,9 +19,11 @@ public class BackwardButtonScript : MonoBehaviour
     {
         if (ButtonHighlightScript2.currentlyHighlightedButton == null) return; // if no audio is currently selected, do nothing
 
-        string previousAudio = ControlPanelScript.GetPreviousAudio();
-        if (previousAudio != null)
+        int index = ControlPanelScript.GetIndexOfAudio();
+        if (index != 0)
+        // if not at the beginning of the playlist
         {
+            string previousAudio = SelectedPlaylistListScript.audioFiles[index - 1].Name;
             ButtonHighlightScript2.HighlightButton(GameObject.Find(previousAudio).GetComponent<ButtonHighlightScript2>()); // highlight previous audio file's button
             ControlPanelScript.LoadAudio(previousAudio);
             controlPanel.PlayAudio();

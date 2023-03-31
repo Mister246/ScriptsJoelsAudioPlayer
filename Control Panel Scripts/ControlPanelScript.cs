@@ -9,6 +9,8 @@ using System.IO;
 
 public class ControlPanelScript : MonoBehaviour
 {
+    static public ControlPanelScript controlPanel; // self-reference to allow for static function calls
+
     static public Text controlPanelText;
 
     public SpriteLibrary spriteLibrary;
@@ -33,6 +35,8 @@ public class ControlPanelScript : MonoBehaviour
 
     void Start()
     {
+        controlPanel = this;
+
         controlPanelText = GetComponentInChildren<Text>();
 
         spriteLibrary = GetComponent<SpriteLibrary>();
@@ -62,10 +66,11 @@ public class ControlPanelScript : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    void AudioManagement()
+    public void AudioManagement()
     {
-        if (!audioSource.isPlaying && ButtonHighlightScript2.currentlyHighlightedButton != null)
-        // if nothing is playing and an audio file is selected
+        if (ButtonHighlightScript2.currentlyHighlightedButton == null) return; // if nothing is selected
+
+        if (!audioSource.isPlaying)
         {
             PlayAudio();
         }
@@ -123,14 +128,11 @@ public class ControlPanelScript : MonoBehaviour
         for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length; i++)
         // for each loaded audio file
         {
-            if (SelectedPlaylistListScript.audioFiles[i].Name == audioSource.clip.name)
+            if (SelectedPlaylistListScript.audioFiles[i].Name == audioSource.clip.name) return i;
             // if this is the currently loaded audio file
-            {
-                return i; 
-            }
         }
 
-        Debug.Log("ERROR: Unable to find index of audio [GetIndexOfAudio()]");
+        Debug.Log("ERROR: Unable to find index of audio [GetIndexOfAudio() in Control Panel]");
         return 0; 
     }
 

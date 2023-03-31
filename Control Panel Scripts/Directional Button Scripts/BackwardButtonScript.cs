@@ -6,13 +6,11 @@ using UnityEngine.UI;
 public class BackwardButtonScript : MonoBehaviour
 {
     static public Button button;
-    static public ControlPanelScript controlPanel;
 
     void Start()
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(delegate { PlayPreviousAudio(); } );
-        controlPanel = GameObject.Find("Control Panel").GetComponent<ControlPanelScript>();
     }
 
     static public void PlayPreviousAudio()
@@ -26,7 +24,7 @@ public class BackwardButtonScript : MonoBehaviour
             string previousAudio = SelectedPlaylistListScript.audioFiles[index - 1].Name;
             ButtonHighlightScript2.HighlightButton(GameObject.Find(previousAudio).GetComponent<ButtonHighlightScript2>()); // highlight previous audio file's button
             ControlPanelScript.LoadAudio(previousAudio);
-            controlPanel.PlayAudio();
+            ControlPanelScript.controlPanel.PlayAudio();
         }
         else
         {

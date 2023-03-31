@@ -12,7 +12,6 @@ public class ForwardButtonScript : MonoBehaviour
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(delegate { PlayNextAudio(); });
-        controlPanel = GameObject.Find("Control Panel").GetComponent<ControlPanelScript>();
     }
 
     static public void PlayNextAudio()
@@ -26,7 +25,7 @@ public class ForwardButtonScript : MonoBehaviour
             string nextAudio = SelectedPlaylistListScript.audioFiles[index + 1].Name;
             ButtonHighlightScript2.HighlightButton(GameObject.Find(nextAudio).GetComponent<ButtonHighlightScript2>()); // highlight next audio file's button
             ControlPanelScript.LoadAudio(nextAudio);
-            controlPanel.PlayAudio();
+            ControlPanelScript.controlPanel.PlayAudio();
         }
         else
         {

@@ -8,7 +8,6 @@ public class LoopOptionScript : MonoBehaviour
 {
     static Image image;
     Button button;
-    static public ControlPanelScript controlPanel;
 
     void Start()
     {
@@ -16,8 +15,6 @@ public class LoopOptionScript : MonoBehaviour
         button.onClick.AddListener(delegate { ToggleLoop(); } );
 
         image = GetComponent<Image>();
-
-        controlPanel = GameObject.Find("Control Panel").GetComponent<ControlPanelScript>();
     }
 
     public void ToggleLoop()
@@ -32,7 +29,7 @@ public class LoopOptionScript : MonoBehaviour
         else
         {
             image.sprite = DropdownMenuScript.falseToggleSprite;
-            controlPanel.StartCoroutine(controlPanel.OnAudioEnd(ControlPanelScript.audioSource.clip.length - ControlPanelScript.audioSource.time)); // start coroutine from control panel in order to ensure audio properly stops upon completion
+            ControlPanelScript.controlPanel.StartCoroutine(ControlPanelScript.controlPanel.OnAudioEnd(ControlPanelScript.audioSource.clip.length - ControlPanelScript.audioSource.time)); // start coroutine from control panel in order to ensure audio properly stops upon completion
         }
     }
 }

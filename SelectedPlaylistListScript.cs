@@ -91,12 +91,39 @@ public class SelectedPlaylistListScript : MonoBehaviour
 
     static FileInfo[] LoadAudioFiles(string playlistName)
     {
-        DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
+        FileInfo[] audioFiles = new FileInfo[0];
+        FileInfo[] wavFiles;
+        FileInfo[] oggFiles;
+        FileInfo[] mp3Files;
+        int iterations = 1; // for loop should only iterate once if loading a single audio file
+
+        if (playlistName == "All Audio Files")
+        // if attempting to load all audio files
+        { 
+            iterations = ListOfPlaylistsScript.playlists.Length; // for loop should iterate once for each playlist
+            playlistName = ListOfPlaylistsScript.playlists[0].Name; // start from first playlist
+        }
+
         currentlyLoadedPlaylist = playlistName;
-        FileInfo[] wavFiles = playlist.GetFiles("*.wav");
-        FileInfo[] oggFiles = playlist.GetFiles("*.ogg");
-        FileInfo[] mp3Files = playlist.GetFiles("*.mp3");
-        return wavFiles.Concat(oggFiles).ToArray().Concat(mp3Files).ToArray(); // return all files in one array
+
+        for (int i = 0; i < iterations; i++)
+        {
+            DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
+            wavFiles = playlist.GetFiles("*.wav");
+            oggFiles = playlist.GetFiles("*.ogg");
+            mp3Files = playlist.GetFiles("*.mp3");
+            audioFiles = audioFiles.Concat(wavFiles).ToArray().Concat(oggFiles).ToArray().Concat(mp3Files).ToArray();
+            try
+            {
+                playlistName = ListOfPlaylistsScript.playlists[i + 1].Name; // move to next playlist
+            }
+            catch
+            {
+                break; // reached end of array
+            }
+        }
+
+        return audioFiles; // return all files in one array
     }
 
     static public void Shuffle()

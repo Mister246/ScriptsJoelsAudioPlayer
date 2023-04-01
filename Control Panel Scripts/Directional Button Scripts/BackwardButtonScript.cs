@@ -17,7 +17,7 @@ public class BackwardButtonScript : MonoBehaviour
     {
         if (ButtonHighlightScript2.currentlyHighlightedButton == null) return; // if no audio is currently selected, do nothing
 
-        int index = ControlPanelScript.GetIndexOfAudio();
+        int index = ControlPanelScript.GetIndexOfAudio(ControlPanelScript.audioSource.clip.name);
         if (index != 0)
         // if not at the beginning of the playlist
         {

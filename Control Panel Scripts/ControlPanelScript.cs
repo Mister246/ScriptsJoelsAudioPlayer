@@ -100,7 +100,8 @@ public class ControlPanelScript : MonoBehaviour
             }
         }
 
-        WWW url = new WWW("file://" + $@"{Application.dataPath}/Playlists/{SelectedPlaylistListScript.currentlyLoadedPlaylist}/{audioFileName}");
+        int index = GetIndexOfAudio(audioFileName);
+        WWW url = new WWW("file://" + SelectedPlaylistListScript.audioFiles[index]);
         audioSource.clip = url.GetAudioClip(false, true);
 
         if (audioSource.clip == null)
@@ -122,13 +123,13 @@ public class ControlPanelScript : MonoBehaviour
         }
     }
 
-    static public int GetIndexOfAudio()
+    static public int GetIndexOfAudio(string name)
     // returns the index of the audio clip currently loaded in the audio files array
     {
         for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length; i++)
         // for each loaded audio file
         {
-            if (SelectedPlaylistListScript.audioFiles[i].Name == audioSource.clip.name) return i;
+            if (SelectedPlaylistListScript.audioFiles[i].Name == name) return i;
             // if this is the currently loaded audio file
         }
 

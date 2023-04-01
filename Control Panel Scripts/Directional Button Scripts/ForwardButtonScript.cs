@@ -18,7 +18,7 @@ public class ForwardButtonScript : MonoBehaviour
     {
         if (ButtonHighlightScript2.currentlyHighlightedButton == null) return; // if no audio is currently selected, do nothing
 
-        int index = ControlPanelScript.GetIndexOfAudio();
+        int index = ControlPanelScript.GetIndexOfAudio(ControlPanelScript.audioSource.clip.name);
         if (index != SelectedPlaylistListScript.audioFiles.Length - 1)
         // if not reached the end of playlist
         {

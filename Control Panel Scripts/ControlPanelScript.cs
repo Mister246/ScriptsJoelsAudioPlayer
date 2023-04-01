@@ -56,12 +56,12 @@ public class ControlPanelScript : MonoBehaviour
         dropdownMenu.SetActive(false); // Dropdown Menu button is hidden by default
 
         volumeSlider = GameObject.Find("Volume Slider");
-        volumeSlider.SetActive(false);
+        volumeSlider.SetActive(false); // Volume Slider is hidden by default
 
         backwardButton = GameObject.Find("Backward Button");
-        backwardButton.SetActive(false);
+        backwardButton.SetActive(false); // Backward Button is hidden by default
         forwardButton = GameObject.Find("Forward Button");
-        forwardButton.SetActive(false);
+        forwardButton.SetActive(false); // Forward Button is hidden by default
 
         audioSource = GetComponent<AudioSource>();
     }

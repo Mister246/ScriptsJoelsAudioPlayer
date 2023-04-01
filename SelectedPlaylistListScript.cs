@@ -70,9 +70,8 @@ public class SelectedPlaylistListScript : MonoBehaviour
         for (int i = 0; i < audioFiles.Length; i++)
         {
             Button newAudioFileButton = Instantiate(audioFileButton, list); // create new audio file button in list
-            string audioFileName = audioFiles[i].Name;
-            newAudioFileButton.name = audioFileName;
-            newAudioFileButton.GetComponentInChildren<TextMeshProUGUI>().text = audioFileName; // display name of audio file on new button
+            newAudioFileButton.name = audioFiles[i].Name;
+            newAudioFileButton.GetComponentInChildren<TextMeshProUGUI>().text = audioFiles[i].Name.Substring(0, audioFiles[i].Name.Length - 4); // display name of audio file on new button
             loadedButtons.Add(newAudioFileButton);
         }
     }
@@ -94,7 +93,10 @@ public class SelectedPlaylistListScript : MonoBehaviour
     {
         DirectoryInfo playlist = new($@"{Application.dataPath}/Playlists/{playlistName}");
         currentlyLoadedPlaylist = playlistName;
-        return playlist.GetFiles("*.ogg");
+        FileInfo[] wavFiles = playlist.GetFiles("*.wav");
+        FileInfo[] oggFiles = playlist.GetFiles("*.ogg");
+        FileInfo[] mp3Files = playlist.GetFiles("*.mp3");
+        return wavFiles.Concat(oggFiles).ToArray().Concat(mp3Files).ToArray(); // return all files in one array
     }
 
     static public void Shuffle()
@@ -104,7 +106,6 @@ public class SelectedPlaylistListScript : MonoBehaviour
         // for each loaded audio file
         {
             int randomIndex = Random.Range(0, audioFiles.Length);
-
             FileInfo temp = audioFiles[i];
             audioFiles[i] = audioFiles[randomIndex];
             audioFiles[randomIndex] = temp;

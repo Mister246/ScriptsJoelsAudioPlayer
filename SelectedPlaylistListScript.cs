@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -64,6 +66,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
         }
         else
         {
+            Array.Sort(audioFiles, (x,y) => string.Compare(x.Name, y.Name)); // sort audio files alphabetically
             isShuffled = false;
         }
 
@@ -132,7 +135,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
         for (int i = 0; i < audioFiles.Length; i++)
         // for each loaded audio file
         {
-            int randomIndex = Random.Range(0, audioFiles.Length);
+            int randomIndex = UnityEngine.Random.Range(0, audioFiles.Length);
             FileInfo temp = audioFiles[i];
             audioFiles[i] = audioFiles[randomIndex];
             audioFiles[randomIndex] = temp;

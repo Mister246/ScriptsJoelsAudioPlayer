@@ -112,7 +112,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
             wavFiles = playlist.GetFiles("*.wav");
             oggFiles = playlist.GetFiles("*.ogg");
             mp3Files = playlist.GetFiles("*.mp3");
-            audioFiles = audioFiles.Concat(wavFiles).ToArray().Concat(oggFiles).ToArray().Concat(mp3Files).ToArray();
+            audioFiles = audioFiles.Concat(wavFiles).ToArray().Concat(oggFiles).ToArray().Concat(mp3Files).ToArray(); // combine all files into a single array
             try
             {
                 playlistName = ListOfPlaylistsScript.playlists[i + 1].Name; // move to next playlist

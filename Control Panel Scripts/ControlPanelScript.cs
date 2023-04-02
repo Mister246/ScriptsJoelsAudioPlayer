@@ -100,8 +100,7 @@ public class ControlPanelScript : MonoBehaviour
             }
         }
 
-        int index = GetIndexOfAudio(audioFileName);
-        WWW url = new WWW("file://" + SelectedPlaylistListScript.audioFiles[index]);
+        WWW url = new WWW("file://" + SelectedPlaylistListScript.audioFiles[GetIndexOfAudio(audioFileName)]);
         audioSource.clip = url.GetAudioClip(false, true);
 
         if (audioSource.clip == null)

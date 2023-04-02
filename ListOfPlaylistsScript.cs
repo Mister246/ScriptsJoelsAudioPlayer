@@ -14,6 +14,7 @@ public class ListOfPlaylistsScript : MonoBehaviour
 
     void Start()
     {
+        Screen.SetResolution(1220, 700, FullScreenMode.Windowed, 144);
         Application.runInBackground = true;
         LoadFolders();
         GenerateFolderList(playlists, playlistButton, transform);
@@ -21,6 +22,7 @@ public class ListOfPlaylistsScript : MonoBehaviour
     }
 
     private void LoadFolders()
+    // Loads array of folders located in Playlist folder
     {
         playlistsDirectory = new($@"{Application.dataPath}/Playlists");
         playlists = playlistsDirectory.GetDirectories();

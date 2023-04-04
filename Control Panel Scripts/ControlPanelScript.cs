@@ -150,12 +150,14 @@ public class ControlPanelScript : MonoBehaviour
 
     static public void PauseAudio()
     {
+        controlPanel.StopAllCoroutines();
         pausePlayButtonImage.sprite = playSprite;
         audioSource.Pause();
     }
 
     static public void StopAudio()
     {
+        controlPanel.StopAllCoroutines();
         pausePlayButtonImage.sprite = playSprite;
         audioSource.Stop();
     }

@@ -7,3 +7,8 @@ Plans:
 		- This was still partially laggy and very unclean looking, as the text updated quite slowly compared to the rest of the program.
 
 	- Search functionality to find a specific folder or audio file.
+
+	- Fix button scrollbar adjustment error :(
+
+	- Change how audio files are ordered in the All Audio Files playlist.
+		- Current version alphabetizes. 

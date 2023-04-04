@@ -6,6 +6,12 @@ public class KeyboardControlsScript : MonoBehaviour
 {
     void Update()
     {
+        if (SearchOptionScript.searchField.isFocused)
+        // if user is typing in search field
+        {
+            return; // do not execute keyboard controls
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ControlPanelScript.controlPanel.AudioManagement();

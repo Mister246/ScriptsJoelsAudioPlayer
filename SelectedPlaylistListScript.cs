@@ -52,6 +52,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
         if (audioFiles.Length == 0)
         {
             ControlPanelScript.DisplayText($"No files located in {selectedPlaylist}");
+            return;
         }
         else
         {
@@ -60,7 +61,6 @@ public class SelectedPlaylistListScript : MonoBehaviour
 
         if (ShuffleOptionScript.shuffle)
         {
-            ControlPanelScript.controlPanel.StopAllCoroutines();
             Shuffle();
             isShuffled = true;
         }
@@ -72,11 +72,16 @@ public class SelectedPlaylistListScript : MonoBehaviour
 
         for (int i = 0; i < audioFiles.Length; i++)
         {
-            Button newAudioFileButton = Instantiate(audioFileButton, list); // create new audio file button in list
-            newAudioFileButton.name = audioFiles[i].Name;
-            newAudioFileButton.GetComponentInChildren<TextMeshProUGUI>().text = audioFiles[i].Name.Substring(0, audioFiles[i].Name.Length - 4); // display name of audio file on new button
-            loadedButtons.Add(newAudioFileButton);
+            CreateButton(audioFiles[i].Name);
         }
+    }
+
+    static public void CreateButton(string name)
+    {
+        Button newAudioFileButton = Instantiate(audioFileButton, list); // create new audio file button in list
+        newAudioFileButton.name = name;
+        newAudioFileButton.GetComponentInChildren<TextMeshProUGUI>().text = name.Substring(0, name.Length - 4); // display name of audio file on new button with file extension removed
+        loadedButtons.Add(newAudioFileButton);
     }
 
     static public void UnloadButtons()
@@ -92,7 +97,7 @@ public class SelectedPlaylistListScript : MonoBehaviour
         ButtonHighlightScript2.currentlyHighlightedButton = null; // once buttons are unloaded, nothing is highlighted
     }
 
-    static FileInfo[] LoadAudioFiles(string playlistName)
+    static public FileInfo[] LoadAudioFiles(string playlistName)
     {
         FileInfo[] audioFiles = new FileInfo[0];
         FileInfo[] wavFiles;

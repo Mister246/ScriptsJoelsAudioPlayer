@@ -33,13 +33,6 @@ public class DropdownMenuScript : MonoBehaviour
     // If dropdown menu is already displayed, it instead hides the dropdown menu
     {
         toggle = !toggle;
-        if (toggle)
-        {
-            dropdownMenu.SetActive(true);
-        }
-        else
-        {
-            dropdownMenu.SetActive(false);
-        }
+        dropdownMenu.SetActive(toggle);
     }
 }

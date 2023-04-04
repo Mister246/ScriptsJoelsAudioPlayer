@@ -29,7 +29,10 @@ public class LoopOptionScript : MonoBehaviour
         else
         {
             image.sprite = DropdownMenuScript.falseToggleSprite;
-            ControlPanelScript.controlPanel.StartCoroutine(ControlPanelScript.controlPanel.OnAudioEnd(ControlPanelScript.audioSource.clip.length - ControlPanelScript.audioSource.time)); // start coroutine from control panel in order to ensure audio properly stops upon completion
+            if (ControlPanelScript.audioSource.isPlaying)
+            {
+                ControlPanelScript.controlPanel.StartCoroutine(ControlPanelScript.controlPanel.OnAudioEnd(ControlPanelScript.audioSource.clip.length - ControlPanelScript.audioSource.time)); // start coroutine from control panel in order to ensure audio properly stops upon completion
+            }
         }
     }
 }

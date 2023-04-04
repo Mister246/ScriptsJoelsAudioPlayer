@@ -69,10 +69,10 @@ public class SearchOptionScript : MonoBehaviour
                 continue;
             }
 
-            float percentMatch = ((float)matchingCharacters / (audioFileName.Length - 4f)) * 100f;
-            float minimumMatch = 75f - (input.Length * 2f);
+            float percentMatch = ((float)matchingCharacters / (input.Length)) * 100f;
+            float minimumMatch = 75f - (input.Length * 3f); // minimum is more forgiving for shorter inputs
 
-            if (input.Length <= 2 || percentMatch >= minimumMatch)
+            if (percentMatch >= minimumMatch)
             {
                 SelectedPlaylistListScript.CreateButton(SelectedPlaylistListScript.audioFiles[i].Name);
                 matchingAudioFiles.Add(SelectedPlaylistListScript.audioFiles[i]);

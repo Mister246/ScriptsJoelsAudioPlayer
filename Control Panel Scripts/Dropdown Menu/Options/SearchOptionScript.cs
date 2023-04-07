@@ -38,6 +38,7 @@ public class SearchOptionScript : MonoBehaviour
     {
         SelectedPlaylistListScript.UnloadButtons();
         SelectedPlaylistListScript.audioFiles = SelectedPlaylistListScript.LoadAudioFiles(SelectedPlaylistListScript.currentlyLoadedPlaylist); // reload audio files
+        ControlPanelScript.StopAudio();
 
         if (input.Length == 0)
         {

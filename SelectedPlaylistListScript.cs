@@ -105,9 +105,9 @@ public class SelectedPlaylistListScript : MonoBehaviour
         FileInfo[] mp3Files;
         int iterations = 1; // for loop should only iterate once if loading a single audio file
 
-        if (playlistName == "All Audio Files")
+        if (playlistName == "! All Audio Files !")
         // if attempting to load all audio files
-        { 
+        {
             iterations = ListOfPlaylistsScript.playlists.Length; // for loop should iterate once for each playlist
             playlistName = ListOfPlaylistsScript.playlists[0].Name; // start from first playlist
         }

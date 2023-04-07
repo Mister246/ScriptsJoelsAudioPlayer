@@ -27,10 +27,10 @@ public class ListOfPlaylistsScript : MonoBehaviour
         playlistsDirectory = new($@"{Application.dataPath}/Playlists");
         playlists = playlistsDirectory.GetDirectories();
 
-        if (!playlists.Any(r => r.FullName.Equals(Path.Combine(playlistsDirectory.FullName, "All Audio Files"))))
+        if (!playlists.Any(r => r.FullName.Equals(Path.Combine(playlistsDirectory.FullName, "! All Audio Files !"))))
         // if All Audio Files playlist does not exist in playlists folder
         {
-            Directory.CreateDirectory(playlistsDirectory.FullName + "\\All Audio Files");
+            Directory.CreateDirectory(playlistsDirectory.FullName + "\\! All Audio Files !");
             playlists = playlistsDirectory.GetDirectories();
         }
 

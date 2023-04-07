@@ -200,17 +200,6 @@ public class ControlPanelScript : MonoBehaviour
         yield return new WaitForSeconds(audioDuration);
         // wait for audio file to end
 
-        if (audioSource.time > 0)
-        {
-            if ((audioSource.time - currentTime) <= (audioDuration - 0.3))
-            // if at some point interrupted the audio clip
-            // this can happen either by pausing the audio file or selecting another playlist
-            // 0.3 is the tolerance
-            {
-                yield break;
-            }
-        }
-
         if (audioSource.loop)
         {
             yield break;

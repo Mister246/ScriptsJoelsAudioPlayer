@@ -31,10 +31,7 @@ public class SearchOptionScript : MonoBehaviour
     {
         toggle = !toggle;
         searchMenu.SetActive(toggle);
-        if (toggle)
-        {
-            EventSystem.current.SetSelectedGameObject(searchField.gameObject); // make search field focused upon opening
-        }
+        if (toggle) EventSystem.current.SetSelectedGameObject(searchField.gameObject); // make search field focused upon opening
     }
 
     static public void Search(string input)
@@ -69,14 +66,14 @@ public class SearchOptionScript : MonoBehaviour
                 continue;
             }
 
-            float percentMatch = ((float)matchingCharacters / (input.Length)) * 100f;
-            float minimumMatch = 75f - (input.Length * 3f); // minimum is more forgiving for shorter inputs
+            float percentMatch = (float)matchingCharacters / input.Length;
+            float minimumMatch = 0.6f;
 
             if (percentMatch >= minimumMatch)
+            // if this audio file is at least 60% similar to the user input
             {
-                SelectedPlaylistListScript.CreateButton(SelectedPlaylistListScript.audioFiles[i].Name);
+                SelectedPlaylistListScript.CreateButton(SelectedPlaylistListScript.audioFiles[i].Name); // create button to select this audio file
                 matchingAudioFiles.Add(SelectedPlaylistListScript.audioFiles[i]);
-                Debug.Log($"{percentMatch} >= {minimumMatch}");
             }
         }
 

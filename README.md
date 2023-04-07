@@ -12,3 +12,8 @@ Plans:
 
 	- Change how audio files are ordered in the All Audio Files playlist.
 		- Current version alphabetizes. 
+
+	- Fix bug where OnAudioEnd doesn't properly execute when audio has been paused for a little while
+
+	- Find out how to keep All Audio Files playlist at the top.
+		- Manually move it to index 0 in the array?

@@ -36,12 +36,21 @@ public class SearchOptionScript : MonoBehaviour
 
     static public void Search(string input)
     {
-        if (input.Length == 0) return;
-
+        SelectedPlaylistListScript.UnloadButtons();
         SelectedPlaylistListScript.audioFiles = SelectedPlaylistListScript.LoadAudioFiles(SelectedPlaylistListScript.currentlyLoadedPlaylist); // reload audio files
 
+        if (input.Length == 0)
+        {
+            for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length; i++)
+            // for each audio file
+            {
+                SelectedPlaylistListScript.CreateButton(SelectedPlaylistListScript.audioFiles[i].Name); // reload buttons for this playlist
+            }
+
+            return;
+        }
+
         List<FileInfo> matchingAudioFiles = new List<FileInfo>();   
-        SelectedPlaylistListScript.UnloadButtons();
         input = input.ToLower();
 
         for (int i = 0; i < SelectedPlaylistListScript.audioFiles.Length; i++)
